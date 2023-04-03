@@ -46,6 +46,10 @@ class NavBar extends StatelessWidget {
           ListTile(
               title: Text('Kartenübersicht'),
               onTap: () => print ('Kartenübersicht')
+          ),
+          ListTile(
+              title: Text('Kundenübersicht'),
+              onTap: () => print ('Kundenübersicht')
           )
         ],
       ),

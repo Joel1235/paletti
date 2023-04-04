@@ -31,26 +31,42 @@ class NavBar extends StatelessWidget {
             ),
           ),
           ListTile(
+            leading: Icon(Icons.description),
             title: Text('Palettenübersicht'),
             onTap: () => print ('Palettenübersicht')
           ),
           ListTile(
+            leading: Icon(Icons.my_location),
               title: Text('Fahrerstandorte'),
               onTap: () => print ('Fahrerstandorte')
           ),
           ListTile(
+              leading: Icon(Icons.newspaper),
               title: Text('Aufträge'),
               onTap: () => print ('Aufträge')
           ),
           Divider(),
           ListTile(
+              leading: Icon(Icons.map),
               title: Text('Kartenübersicht'),
               onTap: () => print ('Kartenübersicht')
           ),
           ListTile(
+              leading: Icon(Icons.people),
               title: Text('Kundenübersicht'),
               onTap: () => print ('Kundenübersicht')
-          )
+          ),
+          Divider(),
+          ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Settings'),
+              onTap: () => print ('Setting')
+          ),
+          ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text('Log out'),
+              onTap: () => print ('Log out')
+          ),
         ],
       ),
     );

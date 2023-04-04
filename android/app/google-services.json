@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "68462150954",
+    "project_id": "paletti-ee8dc",
+    "storage_bucket": "paletti-ee8dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68462150954:android:eaa3d198d808425afaca53",
+        "android_client_info": {
+          "package_name": "com.example.paletti_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "68462150954-vqe1bpqple7bhecf1qlkgp9bdlnubl23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCzQS4zOtDb-z3OzEEGAnypTR4BTMVIMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "68462150954-5npgpn6uqbl7um6og1a3njrclif2ko3b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

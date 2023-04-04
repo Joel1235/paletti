@@ -2,6 +2,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:paletti_1/main.dart';
+//import 'package:firebase_auth/firebase_auth_email/main.dart';
 
 class LoginWidget extends StatefulWidget {
   @override
@@ -11,6 +13,12 @@ class LoginWidget extends StatefulWidget {
 class _LoginWidgetState extends State<LoginWidget> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
@@ -32,6 +40,23 @@ class _LoginWidgetState extends State<LoginWidget> {
           decoration: InputDecoration(labelText: 'Enter your Email'),
           obscureText: true,
         ),
+        SizedBox(height: 24),
+        RichText(
+          text: TextSpan(
+            style: TextStyle(color: Colors.grey, ),
+            text: 'No account ?  ',
+            children: [
+              TextSpan(
+                //recognizer: TabGestureRecognizer()..onTab,
+                text: 'Sign Up',
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  //color: Theme.of(context).colorScheme()
+                )
+              )
+            ]
+          ),
+        ),
         SizedBox(height: 20),
         ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
@@ -49,6 +74,20 @@ class _LoginWidgetState extends State<LoginWidget> {
   );
 
   Future signIn() async{
-    //await FirebaseAuth instance.signInWi
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(child: CircularProgressIndicator()),
+    );
+
+    try{
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+    } on FirebaseAuthException catch (e){
+      print(e);
+    }
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

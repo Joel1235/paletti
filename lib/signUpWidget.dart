@@ -1,26 +1,28 @@
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:paletti_1/main.dart';
 import 'package:flutter/gestures.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:paletti_1/utils.dart';
 
-class LoginWidget extends StatefulWidget {
+class SignUpWidget extends StatefulWidget {
 
-  final VoidCallback onClickedSignUp;
+  //final Function onClickedSignIn;
+  final VoidCallback onClickedSignIn;
 
-  const LoginWidget({
+
+  const SignUpWidget({
     Key? key,
-    required this.onClickedSignUp,
+    required this.onClickedSignIn,
   }) : super(key: key);
 
   @override
-  _LoginWidgetState createState() => _LoginWidgetState();
+  _SignUpWidgetState createState() => _SignUpWidgetState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
+class _SignUpWidgetState extends State<SignUpWidget> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -67,12 +69,12 @@ class _LoginWidgetState extends State<LoginWidget> {
           RichText(
             text: TextSpan(
                 style: TextStyle(color: Colors.grey, ),
-                text: 'No account ?  ',
+                text: 'Alreade have an account ?  ',
                 children: [
                   TextSpan(
                       recognizer: TapGestureRecognizer()
-                        ..onTap = widget.onClickedSignUp,
-                      text: 'Sign Up',
+                        ..onTap = widget.onClickedSignIn,
+                      text: 'Log In',
                       style: TextStyle(
                         decoration: TextDecoration.underline,
                         //color: Theme.of(context).colorScheme()
@@ -86,12 +88,12 @@ class _LoginWidgetState extends State<LoginWidget> {
             style: ElevatedButton.styleFrom(
                 minimumSize: Size.fromHeight(50)
             ),
-            icon: Icon(Icons.lock_open, size: 32),
+            icon: Icon(Icons.arrow_forward, size: 32),
             label: Text(
-              'Sign In',
+              'Sign Up',
               style: TextStyle(fontSize: 24),
             ),
-            onPressed: signIn,
+            onPressed: signUp,
           )
         ],
       ),
@@ -99,18 +101,18 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   );
 
-  Future signIn() async{
+  Future signUp() async{
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
 
     showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator()),
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Center(child: CircularProgressIndicator()),
     );
 
     try{
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );

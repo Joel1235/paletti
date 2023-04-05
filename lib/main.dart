@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:paletti_1/utils.dart';
+import 'authPage.dart';
 import 'loginWidget.dart';
 import 'homePage.dart';
 
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: Utils.messengerKey,
       navigatorKey: navigatorKey,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -57,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
           if(snapshot.hasData){
             return HomePage(title: 'HomePage');
           } else {
-            return LoginWidget();
+            return Authpage();
           }
         },
       ),

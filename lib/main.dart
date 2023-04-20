@@ -5,10 +5,13 @@ import 'package:paletti_1/utils.dart';
 import 'authPage.dart';
 import 'loginWidget.dart';
 import 'homePage.dart';
+import 'firebase_options.dart';
 
-Future main() async{
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -57,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          if(snapshot.hasData){
+          if (snapshot.hasData) {
             return HomePage(title: 'HomePage');
           } else {
             return Authpage();

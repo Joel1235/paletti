@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:paletti_1/responsive.dart';
-import '../../constants.dart';
-import 'components/header.dart';
-import 'components/myFields.dart';
-import 'components/recentFile.dart';
-import 'components/storageDetails.dart';
+import 'package:paletti_1/utils/responsive.dart';
+import '../../utils/constants.dart';
+import 'header.dart';
+import 'myFields.dart';
+import 'recentFile.dart';
+import 'storageDetails.dart';
 
 class DashoardContent extends StatelessWidget {
   @override

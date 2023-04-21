@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:paletti_1/components/storageInfoCard.dart';
-import '../../../constants.dart';
+import 'package:paletti_1/components/dashborad/storageInfoCard.dart';
+import '../../utils/constants.dart';
 import 'chart.dart';
 
 class StorageDetails extends StatelessWidget {

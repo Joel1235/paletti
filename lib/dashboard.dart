@@ -20,6 +20,7 @@ class _DashboardState extends State<Dashboard> {
       ),
       body: SafeArea(
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               //default flex = 1, takes 1/6 of screen

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:paletti_1/dashboard.dart';
 import 'package:paletti_1/utils.dart';
 import 'authPage.dart';
-import 'loginWidget.dart';
-import 'homePage.dart';
 import 'firebase_options.dart';
 
 Future main() async {
@@ -45,14 +44,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomePage(title: 'HomePage');
+            //return HomePage(title: 'HomePage');
+            return Dashboard();
           } else {
             return Authpage();
           }

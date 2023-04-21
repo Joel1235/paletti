@@ -1,9 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:paletti_1/palletOverview.dart';
-
-import 'main.dart';
+import 'dashboard.dart';
 
 class NavBar extends StatelessWidget {
+  const NavBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -11,8 +12,8 @@ class NavBar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text('Joe Mama'),
-            accountEmail: Text('joe.mama@gmail.com'),
+            accountName: const Text('Joe Mama'),
+            accountEmail: const Text('joe.mama@gmail.com'),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
                 child: Image.network(
@@ -22,7 +23,7 @@ class NavBar extends StatelessWidget {
                 ),
               ),
             ),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Colors.blue,
                 image: DecorationImage(
                   image: NetworkImage(
@@ -31,39 +32,40 @@ class NavBar extends StatelessWidget {
                 )),
           ),
           ListTile(
-              leading: Icon(Icons.description),
-              title: Text('Palettenübersicht'),
+              leading: const Icon(Icons.description),
+              title: const Text('Dashboard'),
               //onTap: () => print ('Fahrerstandorte')
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => palletOverview()));
+                    MaterialPageRoute(builder: (context) => const Dashboard()));
               }),
           ListTile(
-              leading: Icon(Icons.my_location),
-              title: Text('Fahrerstandorte'),
+              leading: const Icon(Icons.my_location),
+              title: const Text('Fahrerstandorte'),
               onTap: () => print('Fahrerstandorte')),
           ListTile(
-              leading: Icon(Icons.newspaper),
-              title: Text('Aufträge'),
+              leading: const Icon(Icons.newspaper),
+              title: const Text('Aufträge'),
               onTap: () => print('Aufträge')),
-          Divider(),
+          const Divider(),
           ListTile(
-              leading: Icon(Icons.map),
-              title: Text('Kartenübersicht'),
+              leading: const Icon(Icons.map),
+              title: const Text('Kartenübersicht'),
               onTap: () => print('Kartenübersicht')),
           ListTile(
-              leading: Icon(Icons.people),
-              title: Text('Kundenübersicht'),
+              leading: const Icon(Icons.people),
+              title: const Text('Kundenübersicht'),
               onTap: () => print('Kundenübersicht')),
-          Divider(),
+          const Divider(),
           ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
               onTap: () => print('Setting')),
           ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Log out'),
-              onTap: () => print('Log out')),
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text('Log out'),
+              onTap: () => FirebaseAuth.instance.signOut()),
+          //onPressed: () => FirebaseAuth.instance.signOut(),
         ],
       ),
     );

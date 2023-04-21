@@ -1,65 +1,46 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
 
-class palletOverview extends StatefulWidget {
+import 'navBar.dart';
 
+class PalletOverview extends StatefulWidget {
+  const PalletOverview({super.key});
 
   @override
-  _palettOverview createState() => _palettOverview();
+  _dashboard createState() => _dashboard();
 }
 
-class _palettOverview extends State<palletOverview> {
+class _dashboard extends State<PalletOverview> {
+  bool _isDrawerOpen = true; // Standardmäßig geöffnet in der Webansicht
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
     return Scaffold(
-      //body: LoginWidget(),
-      body: Center(
+      drawer: NavBar(),
+      appBar: AppBar(
+          title: const Text('Dashboard'),
+          leading: isMobile
+              ? IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: () {
+                    setState(() {
+                      _isDrawerOpen = !_isDrawerOpen;
+                    });
+                  },
+                )
+              : null),
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height:40),
-            Text('PalletOverview works')
-          ],
+          children: [SizedBox(height: 40), Text('Dashboard works')],
         ),
       ),
     );
   }
 
-
- /* @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-    return Scaffold
-    padding: EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 40),
-            TextFormField(
-              cursorColor: Colors.white,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(labelText: 'Enter amount'),
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              //validator: (email) => email != null && !EmailValidator.validate(email)
-                //  ? 'Enter a valid email'
-                  //: null,
-            ),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                  minimumSize: Size.fromHeight(50)
-              ),
-              icon: Icon(Icons.lock_open, size: 32),
-              label: Text(
-                'Sign In',
-                style: TextStyle(fontSize: 24),
-              ),
-              onPressed: submitPallets,
-            )
-          ],
-        ),
-  );*/
-
-  Future submitPallets(){
+  Future submitPallets() {
     throw UnimplementedError();
   }
 }

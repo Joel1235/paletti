@@ -35,6 +35,16 @@ class _newEntry extends State<NewEntry> {
         snapshot.data!.docs.forEach((doc) {
           print(doc.data());
         });
+
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          child: ListView(
+            children: snapshot.data!.docs.map((doc) {
+              return Text(doc.data().toString()); // die data()-Methode aufrufen
+            }).toList(),
+          ),
+        );
+
         /*return Row(
       children: [
         ListView(

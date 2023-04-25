@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:paletti_1/components/newEntry/newEntry.dart';
-import 'components/dashborad/dashboard.dart';
+import 'components/dashborad/mainScreen.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -37,13 +37,11 @@ class NavBar extends StatelessWidget {
               title: const Text('Dashboard'),
               //onTap: () => print ('Fahrerstandorte')
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Dashboard()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MainScreen()));
               }),
-          ListTile(
-              leading: const Icon(Icons.my_location),
-              title: const Text('Fahrerstandorte'),
-              onTap: () => print('Fahrerstandorte')),
           ListTile(
               leading: const Icon(Icons.newspaper),
               title: const Text('New Entry'),
@@ -51,6 +49,10 @@ class NavBar extends StatelessWidget {
                 Navigator.push(context,
                     MaterialPageRoute(builder: ((context) => NewEntry())));
               }),
+          ListTile(
+              leading: const Icon(Icons.my_location),
+              title: const Text('Fahrerstandorte'),
+              onTap: () => print('Fahrerstandorte')),
           const Divider(),
           ListTile(
               leading: const Icon(Icons.map),

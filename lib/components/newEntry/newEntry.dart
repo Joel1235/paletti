@@ -14,9 +14,9 @@ class NewEntry extends StatefulWidget {
 }
 
 class _newEntry extends State<NewEntry> {
-  
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final Stream<QuerySnapshot> _pallettenStream = FirebaseFirestore.instance.collection('Palettenkonto').snapshots();
+  final Stream<QuerySnapshot> _pallettenStream =
+      FirebaseFirestore.instance.collection('Palettenkonto').snapshots();
   bool _isDrawerOpen = true; // Standardmäßig geöffnet in der Webansicht
 
   @override
@@ -26,16 +26,16 @@ class _newEntry extends State<NewEntry> {
       stream: _pallettenStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Text('Something went wrong'  + snapshot.error.toString());
+          return Text('Something went wrong' + snapshot.error.toString());
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Text("Loading");
         }
         snapshot.data!.docs.forEach((doc) {
-      print(doc.data());
-    });
-    /*return Row(
+          print(doc.data());
+        });
+        /*return Row(
       children: [
         ListView(
           prototypeItem: const Text("loading succenssful"),
@@ -57,8 +57,7 @@ class _newEntry extends State<NewEntry> {
         ),
       ],
     );*/
-    return Text('data ist displayed in console');
-    
+        return Text('data ist displayed in console');
 
         /*return ListView(
           prototypeItem: const Text("loading succenssful"),

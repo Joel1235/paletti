@@ -29,6 +29,13 @@
             {
               "client_id": "68462150954-5npgpn6uqbl7um6og1a3njrclif2ko3b.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "68462150954-4c2o7v8faf8q4abm4asmsu9ngjq97ufd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.paletti1"
+              }
             }
           ]
         }

@@ -5,21 +5,21 @@ import '../../controllers/MenuAppController.dart';
 import '../../navBar.dart';
 import 'package:provider/provider.dart';
 
-class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       /*appBar: AppBar(
         title: Text('Dashboard'),
       ),*/
-      key: context.read<MenuAppController>().scaffoldKey,
+      //key: context.read<MenuAppController>().scaffoldKey,
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,

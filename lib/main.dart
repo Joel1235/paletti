@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:paletti_1/controllers/MenuAppController.dart';
-import 'package:paletti_1/components/dashborad/dashboard.dart';
+import 'package:paletti_1/components/dashborad/mainScreen.dart';
 import 'package:paletti_1/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'components/auth/authPage.dart';
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             //return HomePage(title: 'HomePage');
-            return Dashboard();
+            return MainScreen();
           } else {
             return Authpage();
           }

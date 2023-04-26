@@ -8,12 +8,12 @@ class StorageInfoCard extends StatelessWidget {
     Key? key,
     required this.title,
     required this.svgSrc,
-    required this.amountOfFiles,
-    required this.numOfFiles,
+    required this.amount,
+    //required this.numOfFiles,
   }) : super(key: key);
 
-  final String title, svgSrc, amountOfFiles;
-  final int numOfFiles;
+  final String title, svgSrc;
+  final int amount;
 
   @override
   Widget build(BuildContext context) {
@@ -44,18 +44,18 @@ class StorageInfoCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  Text(
-                    "$numOfFiles Files",
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption!
-                        .copyWith(color: Colors.white70),
-                  ),
+                  // Text(
+                  //   "$numOfFiles Files", //this is a nice little label under the title, looks prettie nice migth use later
+                  //   style: Theme.of(context)
+                  //       .textTheme
+                  //       .caption!
+                  //       .copyWith(color: Colors.white70),
+                  // ),
                 ],
               ),
             ),
           ),
-          Text(amountOfFiles)
+          Text(amount.toString())
         ],
       ),
     );

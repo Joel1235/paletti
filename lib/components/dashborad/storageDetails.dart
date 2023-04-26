@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:paletti_1/components/dashborad/storageInfoCard.dart';
+import 'package:paletti_1/models/Palettenkonto.dart';
 import '../../utils/constants.dart';
 import 'chart.dart';
 
 class StorageDetails extends StatelessWidget {
+  final Palettenkonto palettenkonto;
+
   const StorageDetails({
+    required this.palettenkonto,
     Key? key,
   }) : super(key: key);
 
@@ -30,27 +34,23 @@ class StorageDetails extends StatelessWidget {
           Chart(),
           StorageInfoCard(
             svgSrc: "icons/Documents.svg",
-            title: "Documents Files",
-            amountOfFiles: "1.3GB",
-            numOfFiles: 1328,
+            title: "Europaletten",
+            amount: palettenkonto.europaletten,
           ),
           StorageInfoCard(
             svgSrc: "icons/media.svg",
-            title: "Media Files",
-            amountOfFiles: "15.3GB",
-            numOfFiles: 1328,
+            title: "Industriepaletten",
+            amount: palettenkonto.industriepaletten,
           ),
           StorageInfoCard(
             svgSrc: "icons/folder.svg",
-            title: "Other Files",
-            amountOfFiles: "1.3GB",
-            numOfFiles: 1328,
+            title: "Chemiepaletten",
+            amount: palettenkonto.chemiepaletten,
           ),
           StorageInfoCard(
             svgSrc: "icons/unknown.svg",
-            title: "Unknown",
-            amountOfFiles: "1.3GB",
-            numOfFiles: 140,
+            title: "Restpaletten",
+            amount: palettenkonto.restpaletten,
           ),
         ],
       ),

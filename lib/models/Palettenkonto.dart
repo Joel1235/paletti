@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
-class Palettenkonto {
+class Palettenkonto extends ChangeNotifier {
   final String unternehmenId;
-  final int gesamtpaletten;
-  final int restpaletten;
-  final int europaletten;
-  final int industriepaletten;
-  final int chemiepaletten;
+  int gesamtpaletten;
+  int restpaletten;
+  int europaletten;
+  int industriepaletten;
+  int chemiepaletten;
 
   Palettenkonto({
     required this.unternehmenId,
@@ -28,17 +29,6 @@ class Palettenkonto {
     );
   }
 
-  // Map<Palettenkonto, dynamic> toJson() {
-  //   return {
-  //     unternehmenId: 'unternehmenId',
-  //     'gesamtpaletten': gesamtpaletten,
-  //     'restpaletten': restpaletten,
-  //     'europaletten': europaletten,
-  //     'industiepaletten': industriepaletten,
-  //     'chmiepaletten': chemiepaletten,
-  //   };
-  // }
-
   factory Palettenkonto.fromSnapshot(DocumentSnapshot snapshot) {
     Map data = snapshot.data() as Map<String, dynamic>;
     return Palettenkonto(
@@ -50,6 +40,16 @@ class Palettenkonto {
       industriepaletten: data['industriepaletten'],
     );
   }
+
+  // void update(int gesamtpaletten, int europaleten, int chemiepaletten,
+  //     int industriepaletten, int restpaletten) {
+  //   this.europaletten = europaleten;
+  //   this.chemiepaletten = chemiepaletten;
+  //   this.gesamtpaletten = gesamtpaletten;
+  //   this.industriepaletten = industriepaletten;
+  //   this.restpaletten = restpaletten;
+  //   notifyListeners();
+  // }
 
   @override
   String toString() {

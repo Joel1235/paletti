@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:paletti_1/utils/responsive.dart';
@@ -17,17 +19,18 @@ class DashoardContent extends StatefulWidget {
 
 class _DashboardContetnState extends State<DashoardContent> {
   Stream<QuerySnapshot<Map<String, dynamic>>>? _stream;
-  //PalettenkontoProvider _palettenkontoProvider = PalettenkontoProvider(null);
+  PalettenkontoProvider _palettenkontoProvider = PalettenkontoProvider(null);
 
   @override
   void initState() {
     super.initState();
-    // _palettenkontoProvider =
-    //     Provider.of<PalettenkontoProvider>(context, listen: false);
-
     _stream = FirebaseFirestore.instance
         .collection('palettenkonto1')
         .snapshots() as Stream<QuerySnapshot<Map<String, dynamic>>>?;
+    //_palettenkontoProvider.setPalettenkonto(_getData());
+    _getData().then((value) => _palettenkontoProvider.setPalettenkonto(value));
+
+    
     // _stream?.listen((QuerySnapshot<Map<String, dynamic>> snapshot) {
     //   List<DocumentSnapshot<Map<String, dynamic>>> documents = snapshot.docs;
     //   Palettenkonto palettenkonto = Palettenkonto.fromSnapshot(documents[0]);
@@ -35,11 +38,25 @@ class _DashboardContetnState extends State<DashoardContent> {
     // });
   }
 
+  Future<Palettenkonto> _getData() async {
+    // Hier holen Sie die Daten von Firebase
+    _stream = FirebaseFirestore.instance
+        .collection('palettenkonto1')
+        .snapshots();
+    QuerySnapshot<Map<String, dynamic>>? snapshot = await _stream?.first;
+    //var _documents = snapshot?.docs;
+    // Hier können Sie die Daten verwenden
+    //print(_documents);
+     List<DocumentSnapshot<Map<String, dynamic>>> documents =
+                   snapshot?.docs as List<DocumentSnapshot<Map<String, dynamic>>>;
+    return Palettenkonto.fromSnapshot(documents[0]);
+  }
+
   @override
   Widget build(BuildContext context) {
-    //return ChangeNotifierProvider<PalettenkontoProvider>(
-    //create: (context) => PalettenkontoProvider(null),
-    return SafeArea(
+    return ChangeNotifierProvider<PalettenkontoProvider>(
+    create: (context) => PalettenkontoProvider(null),
+    //return SafeArea(
       child: Column(
         children: [
           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -55,12 +72,12 @@ class _DashboardContetnState extends State<DashoardContent> {
                   Palettenkonto.fromSnapshot(documents[0]);
 
               //var palettenKonto2 =
-              //  Provider.of<PalettenkontoProvider>(context).palettenkonto;
+               // Provider.of<PalettenkontoProvider>(context).setPalettenkonto(palettenkonto);
               //rint('Konto from provider: ' + palettenKonto2.toString());
               print('Konto \n ' + palettenkonto.toString());
               print('runtype ' + palettenkonto.runtimeType.toString());
               // hier können Sie die Daten verwenden
-              return SafeArea(
+              return Expanded(
                 child: SingleChildScrollView(
                   primary: false,
                   padding: EdgeInsets.all(defaultPadding),

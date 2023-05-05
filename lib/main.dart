@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:paletti_1/controllers/MenuAppController.dart';
 import 'package:paletti_1/components/dashborad/mainScreen.dart';
+import 'package:paletti_1/provider/palettenkonto.provider.dart';
 import 'package:paletti_1/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'components/auth/authPage.dart';
@@ -39,7 +40,8 @@ class MyApp extends StatelessWidget {
       //home: const MyHomePage(title: 'Paletti '),
       home: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => MenuAppController())
+          ChangeNotifierProvider(create: (context) => MenuAppController()),
+          ChangeNotifierProvider(create: (context) => PalettenkontoProvider(null))
         ],
         child: MyHomePage(title: 'Home Page'),
       ),

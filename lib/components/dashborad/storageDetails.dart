@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:paletti_1/components/dashborad/storageInfoCard.dart';
 import 'package:paletti_1/models/Palettenkonto.dart';
+import 'package:provider/provider.dart';
+import '../../provider/palettenkonto.provider.dart';
 import '../../utils/constants.dart';
 import 'chart.dart';
 
 class StorageDetails extends StatelessWidget {
-  final Palettenkonto palettenkonto;
 
   const StorageDetails({
-    required this.palettenkonto,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print('------------');
+    print(context.read<PalettenkontoProvider>().palettenkonto?.europaletten);
+    final palettenkontoProvider = Provider.of<PalettenkontoProvider>(context);
+    final palettenkonto = palettenkontoProvider.palettenkonto;
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
@@ -35,22 +39,22 @@ class StorageDetails extends StatelessWidget {
           StorageInfoCard(
             svgSrc: "icons/Documents.svg",
             title: "Europaletten",
-            amount: palettenkonto.europaletten,
+            amount: palettenkonto?.europaletten,
           ),
           StorageInfoCard(
             svgSrc: "icons/media.svg",
             title: "Industriepaletten",
-            amount: palettenkonto.industriepaletten,
+            amount: palettenkonto?.industriepaletten,
           ),
           StorageInfoCard(
             svgSrc: "icons/folder.svg",
             title: "Chemiepaletten",
-            amount: palettenkonto.chemiepaletten,
+            amount: palettenkonto?.chemiepaletten,
           ),
           StorageInfoCard(
             svgSrc: "icons/unknown.svg",
             title: "Restpaletten",
-            amount: palettenkonto.restpaletten,
+            amount: palettenkonto?.restpaletten,
           ),
         ],
       ),

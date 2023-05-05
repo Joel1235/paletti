@@ -28,7 +28,11 @@ class _DashboardContetnState extends State<DashoardContent> {
         .collection('palettenkonto1')
         .snapshots() as Stream<QuerySnapshot<Map<String, dynamic>>>?;
     //_palettenkontoProvider.setPalettenkonto(_getData());
-    _getData().then((value) => _palettenkontoProvider.setPalettenkonto(value));
+    _getData().then((value) => {
+      //_palettenkontoProvider.setPalettenkonto(value),
+      context.read<PalettenkontoProvider>().setPalettenkonto(value)
+      //print('HEEEERE VALUE $value')
+      });
 
     
     // _stream?.listen((QuerySnapshot<Map<String, dynamic>> snapshot) {
@@ -49,7 +53,10 @@ class _DashboardContetnState extends State<DashoardContent> {
     //print(_documents);
      List<DocumentSnapshot<Map<String, dynamic>>> documents =
                    snapshot?.docs as List<DocumentSnapshot<Map<String, dynamic>>>;
-    return Palettenkonto.fromSnapshot(documents[0]);
+      Palettenkonto palettenkonto = Palettenkonto.fromSnapshot(documents[0]);
+      context.read<PalettenkontoProvider>().setPalettenkonto(palettenkonto);
+      print(context.read<PalettenkontoProvider>().palettenkonto?.europaletten);
+    return palettenkonto;
   }
 
   @override
@@ -72,10 +79,13 @@ class _DashboardContetnState extends State<DashoardContent> {
                   Palettenkonto.fromSnapshot(documents[0]);
 
               //var palettenKonto2 =
-               // Provider.of<PalettenkontoProvider>(context).setPalettenkonto(palettenkonto);
+                //Provider.of<PalettenkontoProvider>(context).setPalettenkonto(palettenkonto);
+              //context.read<PalettenkontoProvider>().setPalettenkonto(palettenkonto);
+              //print(context.read<PalettenkontoProvider>().palettenkonto.toString());
+              //print('\n \n look above');
               //rint('Konto from provider: ' + palettenKonto2.toString());
-              print('Konto \n ' + palettenkonto.toString());
-              print('runtype ' + palettenkonto.runtimeType.toString());
+              //print('Konto \n ' + palettenkonto.toString());
+              //print('runtype ' + palettenkonto.runtimeType.toString());
               // hier können Sie die Daten verwenden
               return Expanded(
                 child: SingleChildScrollView(
@@ -92,13 +102,13 @@ class _DashboardContetnState extends State<DashoardContent> {
                             flex: 5,
                             child: Column(
                               children: [
-                                MyFiles(palettenkonto: palettenkonto),
+                                MyFiles(),
                                 SizedBox(height: defaultPadding),
                                 RecentFiles(),
                                 if (Responsive.isMobile(context))
                                   SizedBox(height: defaultPadding),
                                 if (Responsive.isMobile(context))
-                                  StorageDetails(palettenkonto: palettenkonto),
+                                  StorageDetails(),
                               ],
                             ),
                           ),
@@ -109,7 +119,7 @@ class _DashboardContetnState extends State<DashoardContent> {
                             Expanded(
                               flex: 2,
                               child:
-                                  StorageDetails(palettenkonto: palettenkonto),
+                                  StorageDetails(),
                             ),
                         ],
                       )

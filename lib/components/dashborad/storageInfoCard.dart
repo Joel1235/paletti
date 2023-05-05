@@ -13,7 +13,7 @@ class StorageInfoCard extends StatelessWidget {
   }) : super(key: key);
 
   final String title, svgSrc;
-  final int amount;
+  final int? amount;
 
   @override
   Widget build(BuildContext context) {

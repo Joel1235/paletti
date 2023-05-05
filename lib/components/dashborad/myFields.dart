@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../models/Palettenkonto.dart';
+import '../../provider/palettenkonto.provider.dart';
 import '../../utils/constants.dart';
 import '../../models/MyFiles.dart';
 import '../../utils/responsive.dart';
 import 'fileInfoCard.dart';
 
 class MyFiles extends StatelessWidget {
-  final Palettenkonto palettenkonto;
 
+  
   const MyFiles({
-    required this.palettenkonto,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
+    // final palettenkontoProvider = Provider.of<PalettenkontoProvider>(context);
+    // final palettenkonto = palettenkontoProvider.palettenkonto;
     return Column(
       children: [
         Row(
@@ -44,12 +47,10 @@ class MyFiles extends StatelessWidget {
           mobile: FileInfoCardGridView(
             crossAxisCount: _size.width < 650 ? 2 : 4,
             childAspectRatio: _size.width < 650 && _size.width > 350 ? 1.3 : 1,
-            palettenkonto: palettenkonto,
           ),
-          tablet: FileInfoCardGridView(palettenkonto: palettenkonto),
+          tablet: FileInfoCardGridView(),
           desktop: FileInfoCardGridView(
             childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
-            palettenkonto: palettenkonto,
           ),
         ),
       ],
@@ -60,13 +61,11 @@ class MyFiles extends StatelessWidget {
 class FileInfoCardGridView extends StatelessWidget {
   const FileInfoCardGridView({
     Key? key,
-    required this.palettenkonto,
     this.crossAxisCount = 4,
     this.childAspectRatio = 1,
   }) : super(key: key);
 
   final int crossAxisCount;
-  final Palettenkonto palettenkonto;
   final double childAspectRatio;
 
   @override

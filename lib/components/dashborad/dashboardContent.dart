@@ -19,7 +19,8 @@ class DashoardContent extends StatefulWidget {
 
 class _DashboardContetnState extends State<DashoardContent> {
   Stream<QuerySnapshot<Map<String, dynamic>>>? _stream;
-  PalettenkontoProvider _palettenkontoProvider = PalettenkontoProvider(null);
+  late Palettenkonto palettenkonto;
+ PalettenkontoProvider _palettenkontoProvider = new PalettenkontoProvider();
 
   @override
   void initState() {
@@ -30,7 +31,8 @@ class _DashboardContetnState extends State<DashoardContent> {
     //_palettenkontoProvider.setPalettenkonto(_getData());
     _getData().then((value) => {
       //_palettenkontoProvider.setPalettenkonto(value),
-      context.read<PalettenkontoProvider>().setPalettenkonto(value)
+      context.read<PalettenkontoProvider>().setPalettenkonto(value),
+      this.palettenkonto = value
       //print('HEEEERE VALUE $value')
       });
 
@@ -62,7 +64,7 @@ class _DashboardContetnState extends State<DashoardContent> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<PalettenkontoProvider>(
-    create: (context) => PalettenkontoProvider(null),
+    create: (context) => PalettenkontoProvider(),
     //return SafeArea(
       child: Column(
         children: [
@@ -77,6 +79,13 @@ class _DashboardContetnState extends State<DashoardContent> {
                   snapshot.data!.docs;
               Palettenkonto palettenkonto =
                   Palettenkonto.fromSnapshot(documents[0]);
+              //_palettenkontoProvider.setPalettenkonto(documents[0])
+              _getData().then((value) => {
+      //_palettenkontoProvider.setPalettenkonto(value),
+      context.read<PalettenkontoProvider>().setPalettenkonto(value),
+      this.palettenkonto = value
+      //print('HEEEERE VALUE $value')
+      });
 
               //var palettenKonto2 =
                 //Provider.of<PalettenkontoProvider>(context).setPalettenkonto(palettenkonto);

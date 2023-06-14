@@ -8,8 +8,6 @@ import '../../utils/responsive.dart';
 import 'fileInfoCard.dart';
 
 class MyFiles extends StatelessWidget {
-
-  
   const MyFiles({
     Key? key,
   }) : super(key: key);
@@ -70,6 +68,7 @@ class FileInfoCardGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tmp = context.watch<PalettenkontoProvider>();
     return GridView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -80,7 +79,8 @@ class FileInfoCardGridView extends StatelessWidget {
         mainAxisSpacing: defaultPadding,
         childAspectRatio: childAspectRatio,
       ),
-      itemBuilder: (context, index) => FileInfoCard(info: demoMyFiles[index]),
+      itemBuilder: (context, index) =>
+          FileInfoCard(info: tmp.getDataList()[index]),
     );
   }
 }

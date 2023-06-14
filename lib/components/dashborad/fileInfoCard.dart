@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
+import '../../provider/palettenkonto.provider.dart';
 import '../../utils/constants.dart';
 import '../../models/MyFiles.dart';
 
@@ -14,6 +16,7 @@ class FileInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tmp = context.watch<PalettenkontoProvider>().getDataList();
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
@@ -56,7 +59,7 @@ class FileInfoCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "${info.numOfFiles} Files",
+                "${info.totalStorage} Paletten",
                 style: Theme.of(context)
                     .textTheme
                     .caption!

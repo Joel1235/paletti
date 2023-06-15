@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paletti_1/components/newEntry/newEntry.dart';
 import '../../utils/constants.dart';
 import '../../models/MyFiles.dart';
 import '../../utils/responsive.dart';
@@ -29,7 +30,10 @@ class MyFiles extends StatelessWidget {
                       defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: ((context) => NewEntry())));
+              },
               icon: Icon(Icons.add),
               label: Text("Add New"),
             ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:paletti_1/provider/palettenkonto.provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../utils/constants.dart';
 
@@ -10,6 +12,7 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final temp = context.watch<PalettenkontoProvider>().palettenkonto;
     return SizedBox(
       height: 200,
       child: Stack(
@@ -28,14 +31,14 @@ class Chart extends StatelessWidget {
               children: [
                 SizedBox(height: defaultPadding),
                 Text(
-                  "29.1",
+                  temp!.gesamtpaletten.toString(),
                   style: Theme.of(context).textTheme.headline4!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
                         height: 0.5,
                       ),
                 ),
-                Text("of 128GB")
+                Text(temp!.gesamtpaletten.toString())
               ],
             ),
           ),

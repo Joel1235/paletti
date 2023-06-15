@@ -1,50 +1,56 @@
 class RecentFile {
-  final String? icon, title, date, size;
+  final String? icon, username, date, amount;
 
-  RecentFile({this.icon, this.title, this.date, this.size});
+  RecentFile({this.icon, this.username, this.date, this.amount});
 }
 
 List demoRecentFiles = [
   RecentFile(
-    icon: "assets/icons/xd_file.svg",
-    title: "XD File",
-    date: "01-03-2021",
-    size: "3.5mb",
-  ),
-  RecentFile(
-    icon: "assets/icons/Figma_file.svg",
-    title: "Figma File",
-    date: "27-02-2021",
-    size: "19.0mb",
-  ),
-  RecentFile(
-    icon: "assets/icons/doc_file.svg",
-    title: "Document",
-    date: "23-02-2021",
-    size: "32.5mb",
-  ),
-  RecentFile(
-    icon: "assets/icons/sound_file.svg",
-    title: "Sound File",
-    date: "21-02-2021",
-    size: "3.5mb",
+    icon: "assets/icons/media_file.svg",
+    username: "Joe Mama",
+    date: "01-03-2023",
+    amount: "29",
   ),
   RecentFile(
     icon: "assets/icons/media_file.svg",
-    title: "Media File",
-    date: "23-02-2021",
-    size: "2.5gb",
+    username: "Joe Mama",
+    date: "27-05-2023",
+    amount: "10",
   ),
   RecentFile(
-    icon: "assets/icons/pdf_file.svg",
-    title: "Sales PDF",
-    date: "25-02-2021",
-    size: "3.5mb",
+    icon: "assets/icons/media_file.svg",
+    username: "Joe Mama",
+    date: "01-03-2023",
+    amount: "19",
   ),
   RecentFile(
-    icon: "assets/icons/excle_file.svg",
-    title: "Excel File",
-    date: "25-02-2021",
-    size: "34.5mb",
+    icon: "assets/icons/media_file.svg",
+    username: "Joe Mama",
+    date: "27-04-2023",
+    amount: "90",
   ),
+  RecentFile(
+    icon: "assets/icons/media_file.svg",
+    username: "Joe Mama",
+    date: "27-04-2023",
+    amount: "105",
+  ),
+  RecentFile(
+    icon: "assets/icons/media_file.svg",
+    username: "Joe Mama",
+    date: "29-06-2023",
+    amount: "11",
+  ),
+  RecentFile(
+    icon: "assets/icons/media_file.svg",
+    username: "Joe Mama",
+    date: "24-01-2023",
+    amount: "01",
+  ),
+  RecentFile(
+    icon: "assets/icons/media_file.svg",
+    username: "Joe Mama",
+    date: "23-03-2022",
+    amount: "17",
+  )
 ];

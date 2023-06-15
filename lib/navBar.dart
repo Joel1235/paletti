@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:paletti_1/components/locationMap/locationMap.dart';
 import 'package:paletti_1/components/newEntry/newEntry.dart';
 import 'components/dashborad/mainScreen.dart';
 
@@ -52,12 +53,15 @@ class NavBar extends StatelessWidget {
           ListTile(
               leading: const Icon(Icons.my_location),
               title: const Text('Fahrerstandorte'),
-              onTap: () => print('Fahrerstandorte')),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: ((context) => LocationMap())));
+              }),
           const Divider(),
           ListTile(
               leading: const Icon(Icons.map),
-              title: const Text('Kartenübersicht'),
-              onTap: () => print('Kartenübersicht')),
+              title: const Text('Auftragsübersicht'),
+              onTap: () => print('Auftragsübersicht')),
           ListTile(
               leading: const Icon(Icons.people),
               title: const Text('Kundenübersicht'),

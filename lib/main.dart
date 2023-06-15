@@ -28,23 +28,28 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      scaffoldMessengerKey: Utils.messengerKey,
-      navigatorKey: navigatorKey,
-      title: 'Flutter Demo',
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: bgColor,
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: Colors.white),
-        canvasColor: secondaryColor,
-      ),
-      //home: const MyHomePage(title: 'Paletti '),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => MenuAppController()),
-          ChangeNotifierProvider(create: (context) => PalettenkontoProvider())
-        ],
-        child: MyHomePage(title: 'Home Page'),
+    return ChangeNotifierProvider(
+      create: (context) => PalettenkontoProvider(),
+      child: MaterialApp(
+        scaffoldMessengerKey: Utils.messengerKey,
+        navigatorKey: navigatorKey,
+        title: 'Flutter Demo',
+        theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: bgColor,
+          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+              .apply(bodyColor: Colors.white),
+          canvasColor: secondaryColor,
+        ),
+        //home: const MyHomePage(title: 'Paletti '),
+        home: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => MenuAppController()),
+            //ChangeNotifierProvider(create: (context) => PalettenkontoProvider())
+          ],
+          child: MyHomePage(
+            title: 'Home Page',
+          ),
+        ),
       ),
     );
   }

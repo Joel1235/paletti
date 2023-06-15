@@ -50,6 +50,25 @@ class Palettenkonto extends ChangeNotifier {
   //   this.restpaletten = restpaletten;
   //   notifyListeners();
   // }
+  void updateValues(int chemiePal, int euroPal, int industriePal, int restPal) {
+    this.chemiepaletten += chemiePal;
+    this.europaletten += euroPal;
+    this.industriepaletten += industriePal;
+    this.restpaletten += industriePal;
+    this.gesamtpaletten =
+        chemiepaletten + europaletten + industriepaletten + restpaletten;
+  }
+
+  Map<String, Object?> toJson() {
+    return {
+      'unternehmenId': unternehmenId,
+      'gesamtpaletten': gesamtpaletten,
+      'restpaletten': restpaletten,
+      'europaletten': europaletten,
+      'industriepaletten': industriepaletten,
+      'chemiepaletten': chemiepaletten
+    };
+  }
 
   @override
   String toString() {

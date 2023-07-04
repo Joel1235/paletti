@@ -28,31 +28,18 @@ class _DashboardContetnState extends State<DashoardContent> {
     _stream = FirebaseFirestore.instance
         .collection('palettenkonto1')
         .snapshots() as Stream<QuerySnapshot<Map<String, dynamic>>>?;
-    //_palettenkontoProvider.setPalettenkonto(_getData());
     _getData().then((value) => {
-      //_palettenkontoProvider.setPalettenkonto(value),
       context.read<PalettenkontoProvider>().setPalettenkonto(value),
       this.palettenkonto = value
-      //print('HEEEERE VALUE $value')
       });
-
-    
-    // _stream?.listen((QuerySnapshot<Map<String, dynamic>> snapshot) {
-    //   List<DocumentSnapshot<Map<String, dynamic>>> documents = snapshot.docs;
-    //   Palettenkonto palettenkonto = Palettenkonto.fromSnapshot(documents[0]);
-    //   _palettenkontoProvider.setPalettenkonto(palettenkonto);
-    // });
   }
 
   Future<Palettenkonto> _getData() async {
-    // Hier holen Sie die Daten von Firebase
+    //hole Daten von Firebase
     _stream = FirebaseFirestore.instance
         .collection('palettenkonto1')
         .snapshots();
     QuerySnapshot<Map<String, dynamic>>? snapshot = await _stream?.first;
-    //var _documents = snapshot?.docs;
-    // Hier können Sie die Daten verwenden
-    //print(_documents);
      List<DocumentSnapshot<Map<String, dynamic>>> documents =
                    snapshot?.docs as List<DocumentSnapshot<Map<String, dynamic>>>;
       Palettenkonto palettenkonto = Palettenkonto.fromSnapshot(documents[0]);

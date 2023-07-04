@@ -50,6 +50,8 @@ dependencies:
 
   google_maps_flutter: ^2.3.0
   flutter_osm_plugin: ^0.55.1+1
+  prompt_dialog: ^1.0.13
+
 
 
 dev_dependencies:

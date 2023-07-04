@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:paletti_1/components/locationMap/locationMap.dart';
 import 'package:paletti_1/components/newEntry/newEntry.dart';
 import 'components/dashborad/mainScreen.dart';
+import 'components/messages/messagePage.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -60,8 +61,11 @@ class NavBar extends StatelessWidget {
           const Divider(),
           ListTile(
               leading: const Icon(Icons.map),
-              title: const Text('Auftragsübersicht'),
-              onTap: () => print('Auftragsübersicht')),
+              title: const Text('Organisation'),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: ((context) => MessagePage())));
+              }),
           ListTile(
               leading: const Icon(Icons.people),
               title: const Text('Kundenübersicht'),

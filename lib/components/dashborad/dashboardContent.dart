@@ -57,12 +57,6 @@ class _DashboardContetnState extends State<DashoardContent> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Text("Loading");
         }
-        var list = List.empty();
-        var s = snapshot.data!.docs.map((DocumentSnapshot document) => {
-              print("THESE ARE THE DOCUMENTS $document"),
-              if (document.id != 'account') {list.add(document)}
-            });
-        print("!!!!!!!!!!!!!!!!!!!!! $list");
 
         return Row(
           children: [

@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../models/PalEntry.dart';
 import '../../utils/constants.dart';
-import '../../models/RecentFile.dart';
 
 class RecentFiles extends StatefulWidget {
   @override
@@ -23,8 +20,7 @@ class _RecentFiles extends State<RecentFiles> {
 
   @override
   Widget build(BuildContext context) {
-    //return Container();
-    /*return StreamBuilder(
+    return StreamBuilder(
         stream: _entryStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
@@ -34,55 +30,56 @@ class _RecentFiles extends State<RecentFiles> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Text("Loading");
           }
-          var list = List.empty();
-          var s = snapshot.data!.docs.map((DocumentSnapshot document) => {
-                print("THESE ARE THE DOCUMENTS $document"),
-                if (document.id != 'account') {list.add(document)}
+          List<PalEntry> pallist = [];
+          PalEntry palEntry;
+          snapshot.data!.docs.forEach((document) => {
+                if (document.id != 'account')
+                  {
+                    palEntry = PalEntry.fromSnapshot(document),
+                    pallist.add(palEntry)
+                  },
               });
-          print("!!!!!!!!!!!!!!!!!!!!! $list");
 
-          return Container();*/
-    return Container(
-      padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
-        color: secondaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Recent Changes",
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: DataTable(
-              columnSpacing: defaultPadding,
-              //minWidth: 600,
-              columns: [
-                DataColumn(
-                  label: Text("User name"),
+          return Container(
+            padding: EdgeInsets.all(defaultPadding),
+            decoration: BoxDecoration(
+              color: secondaryColor,
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Recent Changes",
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
-                DataColumn(
-                  label: Text("Date"),
-                ),
-                DataColumn(
-                  label: Text("amount"),
+                SizedBox(
+                  width: double.infinity,
+                  child: DataTable(
+                    columnSpacing: defaultPadding,
+                    //minWidth: 600,
+                    columns: [
+                      DataColumn(
+                        label: Text("User"),
+                      ),
+                      DataColumn(
+                        label: Text("Date"),
+                      ),
+                      DataColumn(
+                        label: Text("Change"),
+                      ),
+                    ],
+                    rows: List.generate(
+                      pallist.length,
+                      (index) => recentFileDataRow(pallist[index]),
+                    ),
+                  ),
                 ),
               ],
-              rows: List.generate(
-                demoRecentFiles.length,
-                (index) => recentFileDataRow(demoRecentFiles[index]),
-              ),
             ),
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
-  //s);
-//}
 
   Future<List<PalEntry>> getRecentChanges() {
     /*_stream =
@@ -93,7 +90,8 @@ class _RecentFiles extends State<RecentFiles> {
   }
 }
 
-DataRow recentFileDataRow(RecentFile fileInfo) {
+DataRow recentFileDataRow(PalEntry palEntry) {
+  var amount = palEntry.gesamtPal.abs();
   return DataRow(
     cells: [
       DataCell(
@@ -110,13 +108,15 @@ DataRow recentFileDataRow(RecentFile fileInfo) {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(fileInfo.username!),
+              child: Text(palEntry.userMail),
             ),
           ],
         ),
       ),
-      DataCell(Text(fileInfo.date!)),
-      DataCell(Text(fileInfo.amount!)),
+      DataCell(Text(palEntry.date)),
+      palEntry.gesamtPal < 0
+          ? DataCell(Text("- $amount"))
+          : DataCell(Text("+ $amount")),
     ],
   );
 }

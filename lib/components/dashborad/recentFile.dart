@@ -1,18 +1,47 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../models/PalEntry.dart';
 import '../../utils/constants.dart';
 import '../../models/RecentFile.dart';
 
-class RecentFiles extends StatelessWidget {
-  const RecentFiles({
-    Key? key,
-  }) : super(key: key);
+class RecentFiles extends StatefulWidget {
+  @override
+  _RecentFiles createState() => _RecentFiles();
+}
+
+class _RecentFiles extends State<RecentFiles> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  final Stream<QuerySnapshot> _entryStream =
+      FirebaseFirestore.instance.collection('palettenkonto1').snapshots();
 
   @override
   Widget build(BuildContext context) {
-    RecentFile recentChanges = getRecentChanges();
+    //return Container();
+    /*return StreamBuilder(
+        stream: _entryStream,
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text("Loading");
+          }
+          var list = List.empty();
+          var s = snapshot.data!.docs.map((DocumentSnapshot document) => {
+                print("THESE ARE THE DOCUMENTS $document"),
+                if (document.id != 'account') {list.add(document)}
+              });
+          print("!!!!!!!!!!!!!!!!!!!!! $list");
+
+          return Container();*/
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
@@ -52,10 +81,15 @@ class RecentFiles extends StatelessWidget {
       ),
     );
   }
-  
-  RecentFile getRecentChanges() {
-    
-    throw UnimplementedError();
+  //s);
+//}
+
+  Future<List<PalEntry>> getRecentChanges() {
+    /*_stream =
+        FirebaseFirestore.instance.collection('palettenkonto1').snapshots();
+
+    DatabaseReference ref = FirebaseDatabase.instance.ref();*/
+    throw new UnimplementedError();
   }
 }
 

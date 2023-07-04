@@ -109,7 +109,6 @@ class _newEntry extends State<NewEntry> {
                   // Funktion zum Bestätigen der Eingabe implementieren
                   submitPallets(chemiePal, euroPal, industriePal, restPal,
                       palKonto.palettenkonto);
-                  
                 },
                 child: Text('Submit'),
               ),
@@ -126,7 +125,7 @@ class _newEntry extends State<NewEntry> {
     //update PalKonto
     final plaKonto1 = FirebaseFirestore.instance.collection("palettenkonto1");
     plaKonto1
-        .doc('A62Nai2zze5Xzo1988iL')
+        .doc('account')
         .update(curPalKonto!.toJson())
         .then((value) => print("Konto updated"))
         .catchError((error) => print("Failed to update Konto: $error"));
@@ -134,15 +133,17 @@ class _newEntry extends State<NewEntry> {
     var email = FirebaseAuth.instance.currentUser?.email;
     PalEntry palEntry = PalEntry(
       id: '1',
-      chemiePal: chemie, 
+      chemiePal: chemie,
       euroPal: euro,
-      gesamtPal: 100, 
-      industriePal: industrie, 
-      restPal: rest, 
-      location: 'location', 
+      gesamtPal: 100,
+      industriePal: industrie,
+      restPal: rest,
+      location: 'location',
       userMail: '$email',
-      );
-    plaKonto1.add(palEntry.toJson()).then((value) => print("Created Entry")).catchError((error) => print("Failed to create Entry"));
+    );
+    plaKonto1
+        .add(palEntry.toJson())
+        .then((value) => print("Created Entry"))
+        .catchError((error) => print("Failed to create Entry"));
   }
-
 }

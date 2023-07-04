@@ -19,8 +19,6 @@ class DashoardContent extends StatefulWidget {
 
 class _DashboardContetnState extends State<DashoardContent> {
   Stream<QuerySnapshot<Map<String, dynamic>>>? _stream;
-  late Palettenkonto palettenkonto;
- PalettenkontoProvider _palettenkontoProvider = new PalettenkontoProvider();
 
   @override
   void initState() {
@@ -28,95 +26,88 @@ class _DashboardContetnState extends State<DashoardContent> {
     _stream = FirebaseFirestore.instance
         .collection('palettenkonto1')
         .snapshots() as Stream<QuerySnapshot<Map<String, dynamic>>>?;
-    _getData().then((value) => {
-      context.read<PalettenkontoProvider>().setPalettenkonto(value),
-      this.palettenkonto = value
-      });
+    _getData();
   }
 
-  Future<Palettenkonto> _getData() async {
-    //hole Daten von Firebase
-    _stream = FirebaseFirestore.instance
+  void _getData() async {
+    var _stream = FirebaseFirestore.instance
         .collection('palettenkonto1')
-        .snapshots();
-    QuerySnapshot<Map<String, dynamic>>? snapshot = await _stream?.first;
-     List<DocumentSnapshot<Map<String, dynamic>>> documents =
-                   snapshot?.docs as List<DocumentSnapshot<Map<String, dynamic>>>;
-      Palettenkonto palettenkonto = Palettenkonto.fromSnapshot(documents[0]);
-      context.read<PalettenkontoProvider>().setPalettenkonto(palettenkonto);
-      print(context.read<PalettenkontoProvider>().palettenkonto?.europaletten);
-    return palettenkonto;
+        .doc('account')
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.exists) {
+        Palettenkonto palettenkonto = Palettenkonto.fromSnapshot(snapshot);
+        context.read<PalettenkontoProvider>().setPalettenkonto(palettenkonto);
+      } else {
+        //TODO: handling if palettenkonto does not exist
+        print("Palettenkonto does not exist");
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<PalettenkontoProvider>(
-    create: (context) => PalettenkontoProvider(),
-    //return SafeArea(
-      child: Column(
-        children: [
-          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: _stream,
-            builder: (BuildContext context,
-                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-              if (!snapshot.hasData) {
-                return CircularProgressIndicator();
-              }
-              List<DocumentSnapshot<Map<String, dynamic>>> documents =
-                  snapshot.data!.docs;
-              Palettenkonto palettenkonto =
-                  Palettenkonto.fromSnapshot(documents[0]);
-              //_palettenkontoProvider.setPalettenkonto(documents[0])
-              _getData().then((value) => {
-      //_palettenkontoProvider.setPalettenkonto(value),
-      context.read<PalettenkontoProvider>().setPalettenkonto(value),
-      this.palettenkonto = value
-      //print('HEEEERE VALUE $value')
-      });
-              return Expanded(
-                child: SingleChildScrollView(
-                  primary: false,
-                  padding: EdgeInsets.all(defaultPadding),
-                  child: Column(
-                    children: [
-                      Header(),
-                      SizedBox(height: defaultPadding),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 5,
-                            child: Column(
-                              children: [
-                                MyFiles(),
+    return StreamBuilder(
+      stream: _stream,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        }
+        var list = List.empty();
+        var s = snapshot.data!.docs.map((DocumentSnapshot document) => {
+              print("THESE ARE THE DOCUMENTS $document"),
+              if (document.id != 'account') {list.add(document)}
+            });
+        print("!!!!!!!!!!!!!!!!!!!!! $list");
+
+        return Row(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                primary: false,
+                padding: EdgeInsets.all(defaultPadding),
+                child: Column(
+                  children: [
+                    Header(),
+                    SizedBox(height: defaultPadding),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 5,
+                          child: Column(
+                            children: [
+                              MyFiles(),
+                              SizedBox(height: defaultPadding),
+                              RecentFiles(),
+                              if (Responsive.isMobile(context))
                                 SizedBox(height: defaultPadding),
-                                RecentFiles(),
-                                if (Responsive.isMobile(context))
-                                  SizedBox(height: defaultPadding),
-                                if (Responsive.isMobile(context))
-                                  StorageDetails(),
-                              ],
-                            ),
+                              if (Responsive.isMobile(context))
+                                StorageDetails(),
+                            ],
                           ),
-                          if (!Responsive.isMobile(context))
-                            SizedBox(width: defaultPadding),
-                          // On Mobile means if the screen is less than 850 we dont want to show it
-                          if (!Responsive.isMobile(context))
-                            Expanded(
-                              flex: 2,
-                              child:
-                                  StorageDetails(),
-                            ),
-                        ],
-                      )
-                    ],
-                  ),
+                        ),
+                        if (!Responsive.isMobile(context))
+                          SizedBox(width: defaultPadding),
+                        // On Mobile means if the screen is less than 850 we dont want to show it
+                        if (!Responsive.isMobile(context))
+                          Expanded(
+                            flex: 2,
+                            child: StorageDetails(),
+                          ),
+                      ],
+                    )
+                  ],
                 ),
-              );
-            },
-          )
-        ],
-      ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

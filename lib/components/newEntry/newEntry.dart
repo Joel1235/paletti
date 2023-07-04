@@ -1,6 +1,8 @@
 // ignore_for_file: camel_case_types
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:paletti_1/models/PalEntry.dart';
 import 'package:paletti_1/provider/palettenkonto.provider.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/MenuAppController.dart';
@@ -107,6 +109,7 @@ class _newEntry extends State<NewEntry> {
                   // Funktion zum Bestätigen der Eingabe implementieren
                   submitPallets(chemiePal, euroPal, industriePal, restPal,
                       palKonto.palettenkonto);
+                  
                 },
                 child: Text('Submit'),
               ),
@@ -117,14 +120,29 @@ class _newEntry extends State<NewEntry> {
     }));
   }
 
-  Future submitPallets(int chemie, int euro, int industrie, int rest,
+  void submitPallets(int chemie, int euro, int industrie, int rest,
       Palettenkonto? curPalKonto) {
     curPalKonto?.updateValues(chemiePal, euroPal, industriePal, restPal);
+    //update PalKonto
     final plaKonto1 = FirebaseFirestore.instance.collection("palettenkonto1");
-    return plaKonto1
+    plaKonto1
         .doc('A62Nai2zze5Xzo1988iL')
         .update(curPalKonto!.toJson())
         .then((value) => print("Konto updated"))
         .catchError((error) => print("Failed to update Konto: $error"));
+    //create List Entry
+    var email = FirebaseAuth.instance.currentUser?.email;
+    PalEntry palEntry = PalEntry(
+      id: '1',
+      chemiePal: chemie, 
+      euroPal: euro,
+      gesamtPal: 100, 
+      industriePal: industrie, 
+      restPal: rest, 
+      location: 'location', 
+      userMail: '$email',
+      );
+    plaKonto1.add(palEntry.toJson()).then((value) => print("Created Entry")).catchError((error) => print("Failed to create Entry"));
   }
+
 }

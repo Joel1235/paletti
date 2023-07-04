@@ -73,16 +73,6 @@ class _DashboardContetnState extends State<DashoardContent> {
       this.palettenkonto = value
       //print('HEEEERE VALUE $value')
       });
-
-              //var palettenKonto2 =
-                //Provider.of<PalettenkontoProvider>(context).setPalettenkonto(palettenkonto);
-              //context.read<PalettenkontoProvider>().setPalettenkonto(palettenkonto);
-              //print(context.read<PalettenkontoProvider>().palettenkonto.toString());
-              //print('\n \n look above');
-              //rint('Konto from provider: ' + palettenKonto2.toString());
-              //print('Konto \n ' + palettenkonto.toString());
-              //print('runtype ' + palettenkonto.runtimeType.toString());
-              // hier können Sie die Daten verwenden
               return Expanded(
                 child: SingleChildScrollView(
                   primary: false,

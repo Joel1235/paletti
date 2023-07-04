@@ -10,13 +10,14 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var mail = FirebaseAuth.instance.currentUser?.email.toString();
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: const Text('Joe Mama'),
-            accountEmail: const Text('joe.mama@gmail.com'),
+            accountName: const Text('logged in as: '),
+            accountEmail: Text('$mail'),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
                 child: Image.network(

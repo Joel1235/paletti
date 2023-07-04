@@ -12,6 +12,7 @@ class RecentFiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RecentFile recentChanges = getRecentChanges();
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
@@ -50,6 +51,11 @@ class RecentFiles extends StatelessWidget {
         ],
       ),
     );
+  }
+  
+  RecentFile getRecentChanges() {
+    
+    throw UnimplementedError();
   }
 }
 

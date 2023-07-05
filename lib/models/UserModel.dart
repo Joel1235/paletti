@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+enum Role { director, dispatcher, employee }
+
+
 class UserModel {
+
   final String id;
   String? fullname;
   String mail;
-  String role;
+  Role role;
 
   UserModel(
       {required this.id,
@@ -27,6 +31,6 @@ class UserModel {
   }
 
   Map<String, Object?> toJson() {
-    return {'id': id, 'fullname': fullname, 'mail': mail, 'role': role};
+    return {'id': id, 'fullname': fullname, 'mail': mail, 'role': role.toString()};
   }
 }

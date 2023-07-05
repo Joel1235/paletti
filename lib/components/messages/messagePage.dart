@@ -1,6 +1,9 @@
 // ignore_for_file: camel_case_types
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:paletti_1/models/Organization.dart';
+import 'package:paletti_1/models/UserModel.dart';
 import 'package:paletti_1/provider/palettenkonto.provider.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/MenuAppController.dart';
@@ -58,6 +61,7 @@ class _newEntry extends State<MessagePage> {
                     return print(await openAddUserDialog(context));
                   },
                 ),
+                
               ]),
             )
           ],
@@ -93,10 +97,9 @@ class _newEntry extends State<MessagePage> {
   Future<void> createOrganization(String value) async {
     CollectionReference organizations =
         FirebaseFirestore.instance.collection('organizations');
+    Organization organization = Organization(orgaId: 'dfk', owner: FirebaseAuth.instance.currentUser!.email.toString(), name: value, userList: []);
     return organizations
-        .add({
-          'name': value,
-        })
+        .add(organization.toJson())
         .then((value) => print("orga added"))
         .catchError((error) => print("Failed to add orga: $error"));
   }
@@ -104,9 +107,41 @@ class _newEntry extends State<MessagePage> {
   void createPalAccount() {}
 
   Future<String?> openAddUserDialog(BuildContext context) {
+    Organization organization = Organization(orgaId: '1', owner: 'Your Code is shit', name: 'name', userList: []);
+    UserModel user = UserModel(id: 'id', mail: 'Your Code is shit', role: Role.director);
     return prompt(
       context,
-      title: const Text("Teilnehmer per ID hinzufügen"),
+      title: const Text("Teilnehmer per Mail hinzufügen"),
+      validator: (String? value){
+        if(value == null || value.isEmpty){
+          return 'Gebe einen gültigen Wert ein';
+        } else {
+          print("Hello");
+          //first get the right User
+          FirebaseFirestore.instance.collection('user').doc(value).get()
+            .then((DocumentSnapshot snap) {
+              if(snap.exists){
+                user = UserModel.fromSnapshot(snap);
+              }
+            });
+          //then get the current organization
+          FirebaseFirestore.instance.collection('organization').doc('SONHC9qZqrgrFmJX0Cga').get()
+            .then((DocumentSnapshot snap) {
+              if(snap.exists){
+                organization = Organization.fromSnapshot(snap);
+                organization.userList.add(user);
+                print(organization.toString());
+                FirebaseFirestore.instance.collection('organization').doc('SONHC9qZqrgrFmJX0Cga').update(organization.toJson());
+              }
+            });
+          //update the Orga with added User
+          
+
+
+          //FirebaseFirestore.instance.collection('organization').doc('1').update({'userList': 'Some new data'});
+
+        }
+      }
     );
   }
 }

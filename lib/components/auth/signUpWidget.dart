@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:paletti_1/main.dart';
 import 'package:flutter/gestures.dart';
+import 'package:paletti_1/models/UserModel.dart';
 import 'package:paletti_1/utils/utils.dart';
 
 class SignUpWidget extends StatefulWidget {
@@ -111,10 +113,14 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+      //var User = new UserModel(id: FirebaseAuth.instance.currentUser.uid, mail: emailController., role: role)
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message);
       rethrow;
     }
+    var user = UserModel(id: FirebaseAuth.instance.currentUser!.uid, mail: FirebaseAuth.instance.currentUser!.email.toString(), role: Role.employee);
+    FirebaseFirestore.instance.collection('user').doc(user.mail).set(user.toJson());
+
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

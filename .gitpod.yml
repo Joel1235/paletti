@@ -1,0 +1,11 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - name: Install Flutter
+    init: |
+      flutter channel stable
+      flutter upgrade
+      flutter config --enable-web
+      flutter doctor -v
+    command: flutter build web --release

@@ -1,23 +1,20 @@
-FROM gitpod/flutter
+FROM gitpod/workspace-full
+
+USER root
+
+ENV FLUTTER_HOME=/home/gitpod/flutter
+
+RUN apt-get update && apt-get -y install git curl unzip wget
+
+RUN apt-get autoremove -y \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/*
 
 USER gitpod
+WORKDIR /home/gitpod
 
-# Install additional dependencies for web support
-RUN sudo apt-get update && \
-    sudo apt-get install -y \
-      clang \
-      cmake \
-      ninja-build \
-      libwebkit2gtk-4.0-dev
+RUN git clone https://github.com/flutter/flutter && \
+    /home/gitpod/flutter/bin/flutter config --enable-web
 
-# Install webdev and create a dummy project to warm up pub cache
-RUN pub global activate webdev && \
-    mkdir warmup && \
-    cd warmup && \
-    flutter create . && \
-    flutter packages get && \
-    cd .. && \
-    rm -rf warmup
-
-# Configure Flutter for web
-RUN flutter config --enable-web
+ENV PUB_CACHE=/home/gitpod/.pub_cache
+ENV PATH ${PATH}:${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin

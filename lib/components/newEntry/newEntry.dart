@@ -1,7 +1,11 @@
 // ignore_for_file: camel_case_types
 
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:paletti_1/models/PalEntry.dart';
 import 'package:paletti_1/provider/palettenkonto.provider.dart';
 import 'package:provider/provider.dart';
@@ -18,10 +22,8 @@ class NewEntry extends StatefulWidget {
 }
 
 class _newEntry extends State<NewEntry> {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final Stream<QuerySnapshot> _pallettenStream =
-      FirebaseFirestore.instance.collection('Palettenkonto').snapshots();
-  bool _isDrawerOpen = true; // Standardmäßig geöffnet in der Webansicht
+  //FirebaseFirestore firestore = FirebaseFirestore.instance;
+  PlatformFile? pickedFile;
 
   int chemiePal = 0;
   int euroPal = 0;
@@ -32,91 +34,117 @@ class _newEntry extends State<NewEntry> {
   String location = '';
 
   Widget build(BuildContext context) {
-    return Consumer<PalettenkontoProvider>(
-        builder: ((context, palKonto, child) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Eingabeseite'),
-        ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              TextField(
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  setState(() {
-                    chemiePal = int.parse(value);
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Chemiepaletten',
+    return Scaffold(
+      body: SafeArea(
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Expanded(child: NavBar()),
+          Expanded(
+            flex: 5,
+            child: Consumer<PalettenkontoProvider>(
+                builder: ((context, palKonto, child) {
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text('Eingabeseite'),
                 ),
-              ),
-              SizedBox(height: 16.0),
-              TextField(
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  setState(() {
-                    euroPal = int.parse(value);
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Europaletten',
+                body: SingleChildScrollView(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      TextField(
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {
+                            chemiePal = int.parse(value);
+                          });
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Chemiepaletten',
+                        ),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^-?\d{0,9}')),
+                        ], // Only numbers can be entered
+                      ),
+                      SizedBox(height: 16.0),
+                      TextField(
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {
+                            euroPal = int.parse(value);
+                          });
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Europaletten',
+                        ),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^-?\d{0,9}'))
+                        ],
+                      ),
+                      SizedBox(height: 16.0),
+                      TextField(
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {
+                            gesamtPal = int.parse(value);
+                          });
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Industriepaletten',
+                        ),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^-?\d{0,9}'))
+                        ],
+                      ),
+                      SizedBox(height: 16.0),
+                      TextField(
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {
+                            industriePal = int.parse(value);
+                          });
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Restpaletten',
+                        ),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^-?\d{0,9}'))
+                        ],
+                      ),
+                      SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          selectFile();
+                        },
+                        child: Text('Bild hochladen'),
+                      ),
+                      SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: () {
+//                          selectFile();
+                        },
+                        child: Text('Standort festlegen'),
+                      ),
+                      SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Funktion zum Bestätigen der Eingabe implementieren
+                          submitPallets(chemiePal, euroPal, industriePal,
+                              restPal, palKonto.palettenkonto);
+                        },
+                        child: Text('Submit'),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 16.0),
-              TextField(
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  setState(() {
-                    gesamtPal = int.parse(value);
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Industriepaletten',
-                ),
-              ),
-              SizedBox(height: 16.0),
-              TextField(
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  setState(() {
-                    industriePal = int.parse(value);
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Restpaletten',
-                ),
-              ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  // Funktion zum Hochladen des Bildes implementieren
-                },
-                child: Text('Bild hochladen'),
-              ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  // Funktion zum Festlegen des Standorts implementieren
-                },
-                child: Text('Standort festlegen'),
-              ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  // Funktion zum Bestätigen der Eingabe implementieren
-                  submitPallets(chemiePal, euroPal, industriePal, restPal,
-                      palKonto.palettenkonto);
-                },
-                child: Text('Submit'),
-              ),
-            ],
+              );
+            })),
           ),
-        ),
-      );
-    }));
+        ]),
+      ),
+    );
   }
 
   void submitPallets(int chemie, int euro, int industrie, int rest,
@@ -149,5 +177,13 @@ class _newEntry extends State<NewEntry> {
         .add(palEntry.toJson())
         .then((value) => print("Created Entry"))
         .catchError((error) => print("Failed to create Entry"));
+  }
+
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null) return;
+    setState(() {
+      pickedFile = result.files.first;
+    });
   }
 }

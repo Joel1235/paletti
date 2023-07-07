@@ -107,8 +107,6 @@ class _newEntry extends State<MessagePage> {
   void createPalAccount() {}
 
   Future<String?> openAddUserDialog(BuildContext context) {
-    Organization organization = Organization(orgaId: '1', owner: 'Your Code is shit', name: 'name', userList: []);
-    UserModel user = UserModel(id: 'id', mail: 'Your Code is shit', role: Role.director);
     return prompt(
       context,
       title: const Text("Teilnehmer per Mail hinzufügen"),
@@ -118,28 +116,30 @@ class _newEntry extends State<MessagePage> {
         } else {
           print("Hello");
           //first get the right User
+          bool userExists = false;
           FirebaseFirestore.instance.collection('user').doc(value).get()
             .then((DocumentSnapshot snap) {
               if(snap.exists){
-                user = UserModel.fromSnapshot(snap);
+                //user = UserModel.fromSnapshot(snap);
+                userExists = true;
               }
             });
           //then get the current organization
-          FirebaseFirestore.instance.collection('organization').doc('SONHC9qZqrgrFmJX0Cga').get()
+          FirebaseFirestore.instance.collection('organizations').doc('SONHC9qZqrgrFmJX0Cga').get()
             .then((DocumentSnapshot snap) {
-              if(snap.exists){
-                organization = Organization.fromSnapshot(snap);
-                organization.userList.add(user);
-                print(organization.toString());
-                FirebaseFirestore.instance.collection('organization').doc('SONHC9qZqrgrFmJX0Cga').update(organization.toJson());
+              if(snap.exists && userExists){
+                //organization = Organization.fromSnapshot(snap);
+                //organization.userList.add(value);
+                //print(organization.toString());
+                List<dynamic> userList = Organization.fromSnapshot(snap).userList;
+                userList.add(value);
+                FirebaseFirestore.instance.collection('organizations').doc('SONHC9qZqrgrFmJX0Cga').update({
+                  'userList': FieldValue.arrayUnion(userList)
+                });
+              } else {                
+                return "Organisation oder User existiert nicht";
               }
-            });
-          //update the Orga with added User
-          
-
-
-          //FirebaseFirestore.instance.collection('organization').doc('1').update({'userList': 'Some new data'});
-
+            }).catchError((error) => print("error occurec: $error"));
         }
       }
     );

@@ -7,7 +7,7 @@ class Organization{
   final String orgaId;
   final String owner;
   final String name;
-  List<UserModel> userList;
+  List<String> userList;
 
   Organization({
     required this.orgaId,
@@ -26,18 +26,19 @@ class Organization{
 
   factory Organization.fromSnapshot(DocumentSnapshot snapshot){
     Map data = snapshot.data() as Map<String, dynamic>;
-    List<dynamic> userListData = data['userList'] ?? [];
+    var userListData = data['userList'] ?? [];
+    print("!!!!!!!! userListData: $userListData");
     //List<UserModel> userList2 = userListData.map((e) => null)
-    List<UserModel> userList = userListData.map((userData) => UserModel.fromJson(userData)).toList();
-    return Organization(orgaId: 'id', owner: 'owner', name: 'name', userList: userList);
+    //List<String> userList = userListData.map((userData) => userList.add(userData)).toList();
+    return Organization(orgaId: 'id', owner: 'owner', name: 'name', userList: List.from(data['userList']));
   }
 
   Map<String, dynamic> userListToJson() {
     Map<String, dynamic> jsonMap = {};
-    for (int i = 0; i < userList.length; i++) {
+    /*for (int i = 0; i < userList.length; i++) {
       jsonMap['element_$i'] = userList[i].mail;
     }
-    print("!!!!! UserList Json Map:  $jsonMap");
+    print("!!!!! UserList Json Map:  $jsonMap");*/
     return jsonMap;
   }
 
@@ -51,6 +52,6 @@ class Organization{
   }
 
   Map<String, Object> toJson(){
-    return {'id': orgaId, 'owner': owner, 'name': name, 'userList': userListToJson()};
+    return {'id': orgaId, 'owner': owner, 'name': name, 'userList': userList.toString()};
   }
 }

@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:paletti_1/controllers/MenuAppController.dart';
 import 'package:paletti_1/components/dashborad/mainScreen.dart';
-import 'package:paletti_1/models/Palettenkonto.dart';
 import 'package:paletti_1/provider/palettenkonto.provider.dart';
 import 'package:paletti_1/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -29,25 +28,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => PalettenkontoProvider(),
-      child: MaterialApp(
-        scaffoldMessengerKey: Utils.messengerKey,
-        navigatorKey: navigatorKey,
-        title: 'Flutter Demo',
-        theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: bgColor,
-          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-              .apply(bodyColor: Colors.white),
-          canvasColor: secondaryColor,
-        ),
-        //home: const MyHomePage(title: 'Paletti '),
-        home: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (context) => MenuAppController()),
-            //ChangeNotifierProvider(create: (context) => PalettenkontoProvider())
-          ],
-          child: MyHomePage(
-            title: 'Home Page',
+      create: (context) => MenuAppController(),
+
+      child: ChangeNotifierProvider(
+        create: (context) => PalettenkontoProvider(),
+        child: MaterialApp(
+          scaffoldMessengerKey: Utils.messengerKey,
+          navigatorKey: navigatorKey,
+          title: 'Flutter Demo',
+          theme: ThemeData.dark().copyWith(
+            scaffoldBackgroundColor: bgColor,
+            textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+                .apply(bodyColor: Colors.white),
+            canvasColor: secondaryColor,
+          ),
+          //home: const MyHomePage(title: 'Paletti '),
+          home: MyHomePage(
+           
+              title: 'Home Page',
+            
           ),
         ),
       ),

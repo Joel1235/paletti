@@ -57,6 +57,7 @@ class _RecentFiles extends State<RecentFiles> {
                   width: double.infinity,
                   child: DataTable(
                     columnSpacing: defaultPadding,
+                    showCheckboxColumn: false,
                     //minWidth: 600,
                     columns: [
                       DataColumn(
@@ -71,7 +72,7 @@ class _RecentFiles extends State<RecentFiles> {
                     ],
                     rows: List.generate(
                       pallist.length,
-                      (index) => recentFileDataRow(pallist[index]),
+                      (index) => recentFileDataRow(pallist[index], context),
                     ),
                   ),
                 ),
@@ -90,9 +91,13 @@ class _RecentFiles extends State<RecentFiles> {
   }
 }
 
-DataRow recentFileDataRow(PalEntry palEntry) {
+DataRow recentFileDataRow(PalEntry palEntry, BuildContext context) {
   var amount = palEntry.gesamtPal.abs();
   return DataRow(
+    onSelectChanged: (newValue) {
+      print("selected $palEntry");
+      detailsDialog(context, palEntry);
+    },
     cells: [
       DataCell(
         Row(
@@ -119,4 +124,25 @@ DataRow recentFileDataRow(PalEntry palEntry) {
           : DataCell(Text("+ $amount")),
     ],
   );
+}
+
+void detailsDialog(BuildContext context, PalEntry palEntry) {
+ showDialog(
+  context: context,
+  builder: (BuildContext context) {
+    return SimpleDialog(
+      title: Text("Details zum Eintrag"),
+      children: [
+        //weitere Widgets
+        ListTile(title: Text("Erstellt von: \t ${palEntry.userMail}"),),
+        ListTile(title: Text("Erstellt am: \t ${palEntry.date}"),),
+        ListTile(title: Text("Änderung Europaletten:  \t ${palEntry.euroPal}"),),
+        ListTile(title: Text("Änderung Industriepaletten:  \t ${palEntry.industriePal}"),),
+        ListTile(title: Text("Änderung Chemiepaletten:  \t ${palEntry.chemiePal}"),),
+        ListTile(title: Text("Änderung Restpaletten:  \t ${palEntry.restPal}"),),
+        ListTile(title: Text("Gesamtänderung:  \t ${palEntry.gesamtPal}"),),
+      ],
+    );
+  });
+   
 }

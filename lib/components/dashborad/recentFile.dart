@@ -10,9 +10,14 @@ class RecentFiles extends StatefulWidget {
 }
 
 class _RecentFiles extends State<RecentFiles> {
+
+   List<PalEntry> paleEntriesfiltered = [];
+  TextEditingController controller = TextEditingController();
+  String _searchResult = '';
   @override
   void initState() {
     super.initState();
+    paleEntriesfiltered = [];
   }
 
   final Stream<QuerySnapshot> _entryStream =
@@ -39,6 +44,7 @@ class _RecentFiles extends State<RecentFiles> {
                     pallist.add(palEntry)
                   },
               });
+              paleEntriesfiltered = pallist;
 
           return Container(
             padding: EdgeInsets.all(defaultPadding),
@@ -53,6 +59,32 @@ class _RecentFiles extends State<RecentFiles> {
                   "Recent Changes",
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
+                Card(
+          child: ListTile(
+            leading: Icon(Icons.search),
+            title: TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                    hintText: 'Search', border: InputBorder.none),
+                onChanged: (value) {
+                  setState(() {
+                    _searchResult = value;
+                     //paleEntriesfiltered = pallist.where((enrty) => enrty.userMail.contains(_searchResult) || enrty.date.contains(_searchResult) || enrty.gesamtPal.toString().contains(_searchResult)).toList();
+                     //print(paleEntriesfiltered);
+                  });
+                }),
+            trailing: IconButton(
+              icon: Icon(Icons.cancel),
+              onPressed: () {
+                setState(() {
+                  controller.clear();
+                  _searchResult = '';
+                  //paleEntriesfiltered = pallist;
+                });
+              },
+            ),
+          ),
+        ),
                 SizedBox(
                   width: double.infinity,
                   child: DataTable(
@@ -72,7 +104,23 @@ class _RecentFiles extends State<RecentFiles> {
                     ],
                     rows: List.generate(
                       pallist.length,
-                      (index) => recentFileDataRow(pallist[index], context),
+                      (index) {
+                        final palEntry = pallist[index];
+                        final amount = palEntry.gesamtPal.abs();
+                        if (_searchResult.isNotEmpty &&
+                          palEntry.userMail
+                              .toLowerCase()
+                              .contains(_searchResult.toLowerCase()) ||
+                          palEntry.date
+                              .toLowerCase()
+                              .contains(_searchResult.toLowerCase()) ||
+                          palEntry.gesamtPal
+                              .toString()
+                              .contains(_searchResult)) {
+                        return recentFileDataRow(palEntry, context) ;
+                      } else {throw Exception("no entries found");}
+                      }
+                      //(index) => recentFileDataRow(paleEntriesfiltered[index], context),
                     ),
                   ),
                 ),

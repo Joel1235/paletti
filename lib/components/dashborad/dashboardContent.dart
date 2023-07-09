@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:paletti_1/models/UserModel.dart';
+import 'package:paletti_1/provider/user.provider.dart';
 import 'package:paletti_1/utils/responsive.dart';
 import 'package:provider/provider.dart';
 import '../../models/Palettenkonto.dart';
@@ -17,6 +20,7 @@ class DashoardContent extends StatefulWidget {
 
 class _DashboardContetnState extends State<DashoardContent> {
   Stream<QuerySnapshot<Map<String, dynamic>>>? _stream;
+  //String orgaId = ;
 
   @override
   void initState() {
@@ -55,50 +59,81 @@ class _DashboardContetnState extends State<DashoardContent> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Text("Loading");
         }
-
-        return Row(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                primary: false,
-                padding: EdgeInsets.all(defaultPadding),
-                child: Column(
-                  children: [
-                    Header(),
-                    SizedBox(height: defaultPadding),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          flex: 5,
-                          child: Column(
-                            children: [
-                              MyFiles(),
-                              SizedBox(height: defaultPadding),
-                              RecentFiles(),
-                              if (Responsive.isMobile(context))
-                                SizedBox(height: defaultPadding),
-                              if (Responsive.isMobile(context))
-                                StorageDetails(),
-                            ],
-                          ),
-                        ),
-                        if (!Responsive.isMobile(context))
-                          SizedBox(width: defaultPadding),
-                        // On Mobile means if the screen is less than 850 we dont want to show it
-                        if (!Responsive.isMobile(context))
+        String? mail = FirebaseAuth.instance.currentUser?.email;
+        String orgaId = context.read<UserProvider>().userModel?.orgaId ?? '';
+        FirebaseFirestore.instance
+            .collection('user')
+            .doc(mail)
+            .get()
+            .then((DocumentSnapshot snap) {
+          if (snap.exists) {
+            orgaId = UserModel.fromSnapshot(snap).orgaId;
+          }
+        });
+        if (orgaId != '') {
+          return Row(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  primary: false,
+                  padding: EdgeInsets.all(defaultPadding),
+                  child: Column(
+                    children: [
+                      Header(),
+                      SizedBox(height: defaultPadding),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Expanded(
-                            flex: 2,
-                            child: StorageDetails(),
+                            flex: 5,
+                            child: Column(
+                              children: [
+                                MyFiles(),
+                                SizedBox(height: defaultPadding),
+                                RecentFiles(),
+                                if (Responsive.isMobile(context))
+                                  SizedBox(height: defaultPadding),
+                                if (Responsive.isMobile(context))
+                                  StorageDetails(),
+                              ],
+                            ),
                           ),
-                      ],
-                    )
-                  ],
+                          if (!Responsive.isMobile(context))
+                            SizedBox(width: defaultPadding),
+                          // On Mobile means if the screen is less than 850 we dont want to show it
+                          if (!Responsive.isMobile(context))
+                            Expanded(
+                              flex: 2,
+                              child: StorageDetails(),
+                            ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        );
+            ],
+          );
+        } else {
+          return Row(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  primary: false,
+                  padding: EdgeInsets.all(defaultPadding),
+                  child: Column(
+                    children: [
+                      Header(),
+                      SizedBox(height: defaultPadding),
+                      Text(
+                          "Es ist so ruhig hier, erstelle eine Organisation unter dem Menüpunkt Organisation"),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        }
       },
     );
   }

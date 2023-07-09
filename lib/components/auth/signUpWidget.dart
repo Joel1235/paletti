@@ -118,8 +118,15 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       Utils.showSnackBar(e.message);
       rethrow;
     }
-    var user = UserModel(id: FirebaseAuth.instance.currentUser!.uid, mail: FirebaseAuth.instance.currentUser!.email.toString(), role: Role.employee);
-    FirebaseFirestore.instance.collection('user').doc(user.mail).set(user.toJson());
+    var user = UserModel(
+        id: FirebaseAuth.instance.currentUser!.uid,
+        mail: FirebaseAuth.instance.currentUser!.email.toString(),
+        role: Role.employee,
+        orgaId: '');
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(user.mail)
+        .set(user.toJson());
 
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }

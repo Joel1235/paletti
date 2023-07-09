@@ -16,7 +16,6 @@ class FileInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tmp = context.watch<PalettenkontoProvider>().getDataList();
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(

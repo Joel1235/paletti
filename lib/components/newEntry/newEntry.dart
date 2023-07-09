@@ -114,6 +114,22 @@ class _newEntry extends State<NewEntry> {
                         ],
                       ),
                       SizedBox(height: 16.0),
+                      TextField(
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {
+                            industriePal = int.parse(value);
+                          });
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Standort',
+                        ),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^-?\d{0,9}'))
+                        ],
+                      ),
+                      SizedBox(height: 16.0),
                       ElevatedButton(
                         onPressed: () {
                           selectFile();
@@ -123,18 +139,10 @@ class _newEntry extends State<NewEntry> {
                       SizedBox(height: 16.0),
                       ElevatedButton(
                         onPressed: () {
-//                          selectFile();
-                        },
-                        child: Text('Standort festlegen'),
-                      ),
-                      SizedBox(height: 16.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Funktion zum Bestätigen der Eingabe implementieren
                           submitPallets(chemiePal, euroPal, industriePal,
                               restPal, palKonto.palettenkonto);
                         },
-                        child: Text('Submit'),
+                        child: Text('Einreichen'),
                       ),
                     ],
                   ),

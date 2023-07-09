@@ -5,6 +5,7 @@ import '../../provider/palettenkonto.provider.dart';
 import '../../utils/constants.dart';
 import '../../models/MyFiles.dart';
 import '../../utils/responsive.dart';
+import '../newEntry/newEntry.dart';
 import 'fileInfoCard.dart';
 
 class MyFiles extends StatelessWidget {
@@ -15,8 +16,6 @@ class MyFiles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
-    // final palettenkontoProvider = Provider.of<PalettenkontoProvider>(context);
-    // final palettenkonto = palettenkontoProvider.palettenkonto;
     return Column(
       children: [
         Row(
@@ -34,9 +33,12 @@ class MyFiles extends StatelessWidget {
                       defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: ((context) => NewEntry())));
+              },
               icon: Icon(Icons.add),
-              label: Text("Add New"),
+              label: Text("Eintrag hinzufügen"),
             ),
           ],
         ),

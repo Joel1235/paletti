@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:paletti_1/components/locationMap/locationMap.dart';
 import 'package:paletti_1/components/newEntry/newEntry.dart';
 import 'components/dashborad/mainScreen.dart';
+import 'components/externApi/extApi.dart';
 import 'components/messages/messagePage.dart';
 
 class NavBar extends StatelessWidget {
@@ -69,8 +70,11 @@ class NavBar extends StatelessWidget {
               }),
           ListTile(
               leading: const Icon(Icons.people),
-              title: const Text('Kundenübersicht'),
-              onTap: () => print('Kundenübersicht')),
+              title: const Text('Externe Api'),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: ((context) => ExtApi())));
+              }),
           const Divider(),
           ListTile(
               leading: const Icon(Icons.settings),

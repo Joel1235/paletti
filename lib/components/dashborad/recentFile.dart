@@ -10,8 +10,7 @@ class RecentFiles extends StatefulWidget {
 }
 
 class _RecentFiles extends State<RecentFiles> {
-
-   List<PalEntry> paleEntriesfiltered = [];
+  List<PalEntry> paleEntriesfiltered = [];
   TextEditingController controller = TextEditingController();
   String _searchResult = '';
   @override
@@ -44,7 +43,7 @@ class _RecentFiles extends State<RecentFiles> {
                     pallist.add(palEntry)
                   },
               });
-              paleEntriesfiltered = pallist;
+          paleEntriesfiltered = pallist;
 
           return Container(
             padding: EdgeInsets.all(defaultPadding),
@@ -56,35 +55,35 @@ class _RecentFiles extends State<RecentFiles> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Recent Changes",
+                  "Einträge",
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 Card(
-          child: ListTile(
-            leading: Icon(Icons.search),
-            title: TextField(
-                controller: controller,
-                decoration: InputDecoration(
-                    hintText: 'Search', border: InputBorder.none),
-                onChanged: (value) {
-                  setState(() {
-                    _searchResult = value;
-                     //paleEntriesfiltered = pallist.where((enrty) => enrty.userMail.contains(_searchResult) || enrty.date.contains(_searchResult) || enrty.gesamtPal.toString().contains(_searchResult)).toList();
-                     //print(paleEntriesfiltered);
-                  });
-                }),
-            trailing: IconButton(
-              icon: Icon(Icons.cancel),
-              onPressed: () {
-                setState(() {
-                  controller.clear();
-                  _searchResult = '';
-                  //paleEntriesfiltered = pallist;
-                });
-              },
-            ),
-          ),
-        ),
+                  child: ListTile(
+                    leading: Icon(Icons.search),
+                    title: TextField(
+                        controller: controller,
+                        decoration: InputDecoration(
+                            hintText: 'Search', border: InputBorder.none),
+                        onChanged: (value) {
+                          setState(() {
+                            _searchResult = value;
+                            //paleEntriesfiltered = pallist.where((enrty) => enrty.userMail.contains(_searchResult) || enrty.date.contains(_searchResult) || enrty.gesamtPal.toString().contains(_searchResult)).toList();
+                            //print(paleEntriesfiltered);
+                          });
+                        }),
+                    trailing: IconButton(
+                      icon: Icon(Icons.cancel),
+                      onPressed: () {
+                        setState(() {
+                          controller.clear();
+                          _searchResult = '';
+                          //paleEntriesfiltered = pallist;
+                        });
+                      },
+                    ),
+                  ),
+                ),
                 SizedBox(
                   width: double.infinity,
                   child: DataTable(
@@ -102,26 +101,26 @@ class _RecentFiles extends State<RecentFiles> {
                         label: Text("Change"),
                       ),
                     ],
-                    rows: List.generate(
-                      pallist.length,
-                      (index) {
-                        final palEntry = pallist[index];
-                        final amount = palEntry.gesamtPal.abs();
-                        if (_searchResult.isNotEmpty &&
-                          palEntry.userMail
-                              .toLowerCase()
-                              .contains(_searchResult.toLowerCase()) ||
+                    rows: List.generate(pallist.length, (index) {
+                      final palEntry = pallist[index];
+                      final amount = palEntry.gesamtPal.abs();
+                      if (_searchResult.isNotEmpty &&
+                              palEntry.userMail
+                                  .toLowerCase()
+                                  .contains(_searchResult.toLowerCase()) ||
                           palEntry.date
                               .toLowerCase()
                               .contains(_searchResult.toLowerCase()) ||
                           palEntry.gesamtPal
                               .toString()
                               .contains(_searchResult)) {
-                        return recentFileDataRow(palEntry, context) ;
-                      } else {throw Exception("no entries found");}
+                        return recentFileDataRow(palEntry, context);
+                      } else {
+                        throw Exception("no entries found");
                       }
-                      //(index) => recentFileDataRow(paleEntriesfiltered[index], context),
-                    ),
+                    }
+                        //(index) => recentFileDataRow(paleEntriesfiltered[index], context),
+                        ),
                   ),
                 ),
               ],
@@ -175,22 +174,36 @@ DataRow recentFileDataRow(PalEntry palEntry, BuildContext context) {
 }
 
 void detailsDialog(BuildContext context, PalEntry palEntry) {
- showDialog(
-  context: context,
-  builder: (BuildContext context) {
-    return SimpleDialog(
-      title: Text("Details zum Eintrag"),
-      children: [
-        //weitere Widgets
-        ListTile(title: Text("Erstellt von: \t ${palEntry.userMail}"),),
-        ListTile(title: Text("Erstellt am: \t ${palEntry.date}"),),
-        ListTile(title: Text("Änderung Europaletten:  \t ${palEntry.euroPal}"),),
-        ListTile(title: Text("Änderung Industriepaletten:  \t ${palEntry.industriePal}"),),
-        ListTile(title: Text("Änderung Chemiepaletten:  \t ${palEntry.chemiePal}"),),
-        ListTile(title: Text("Änderung Restpaletten:  \t ${palEntry.restPal}"),),
-        ListTile(title: Text("Gesamtänderung:  \t ${palEntry.gesamtPal}"),),
-      ],
-    );
-  });
-   
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: Text("Details zum Eintrag"),
+          children: [
+            //weitere Widgets
+            ListTile(
+              title: Text("Erstellt von: \t ${palEntry.userMail}"),
+            ),
+            ListTile(
+              title: Text("Erstellt am: \t ${palEntry.date}"),
+            ),
+            ListTile(
+              title: Text("Änderung Europaletten:  \t ${palEntry.euroPal}"),
+            ),
+            ListTile(
+              title: Text(
+                  "Änderung Industriepaletten:  \t ${palEntry.industriePal}"),
+            ),
+            ListTile(
+              title: Text("Änderung Chemiepaletten:  \t ${palEntry.chemiePal}"),
+            ),
+            ListTile(
+              title: Text("Änderung Restpaletten:  \t ${palEntry.restPal}"),
+            ),
+            ListTile(
+              title: Text("Gesamtänderung:  \t ${palEntry.gesamtPal}"),
+            ),
+          ],
+        );
+      });
 }

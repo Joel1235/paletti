@@ -53,6 +53,11 @@ dependencies:
   prompt_dialog: ^1.0.13
   file_picker: ^5.3.2
 
+  url_launcher: ^6.1.12
+
+  http: ^1.1.0
+
+
 
 
 dev_dependencies:

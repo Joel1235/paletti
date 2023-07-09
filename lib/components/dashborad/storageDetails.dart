@@ -24,7 +24,7 @@ class StorageDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Storage Details",
+                "Überblick",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,

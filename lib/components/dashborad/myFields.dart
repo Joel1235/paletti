@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:paletti_1/models/Palettenkonto.dart';
 import 'package:provider/provider.dart';
-import '../../models/Palettenkonto.dart';
 import '../../provider/palettenkonto.provider.dart';
 import '../../utils/constants.dart';
-import '../../models/MyFiles.dart';
 import '../../utils/responsive.dart';
 import '../newEntry/newEntry.dart';
 import 'fileInfoCard.dart';
@@ -22,7 +21,7 @@ class MyFiles extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "My Files",
+              "Palettenkonto",
               style: Theme.of(context).textTheme.subtitle1,
             ),
             ElevatedButton.icon(
@@ -70,19 +69,52 @@ class FileInfoCardGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tmp = context.watch<PalettenkontoProvider>();
+    Palettenkonto? tmp = context.watch<PalettenkontoProvider>().palettenkonto;
+    print(tmp);
     return GridView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: demoMyFiles.length,
+      itemCount: 4,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
         crossAxisSpacing: defaultPadding,
         mainAxisSpacing: defaultPadding,
         childAspectRatio: childAspectRatio,
       ),
-      itemBuilder: (context, index) =>
-          FileInfoCard(info: tmp.getDataList()[index]),
+      itemBuilder: (context, index) {
+        List<FileInfoCard> fileInfoCards = [
+          FileInfoCard(
+            amount: tmp!.europaletten,
+            title: 'Europaletten',
+            color: primaryColor,
+            svgSrc: "assets/icons/Documents.svg",
+            total: tmp.gesamtpaletten,
+          ),
+          FileInfoCard(
+            amount: tmp!.chemiepaletten,
+            title: 'Chemiepaletten',
+            color: Color(0xFFA4CDFF),
+            svgSrc: "assets/icons/one_drive.svg",
+            total: tmp.gesamtpaletten,
+          ),
+          FileInfoCard(
+            amount: tmp!.industriepaletten,
+            title: 'Industriepaletten',
+            color: Color(0xFFFFA113),
+            svgSrc: "assets/icons/google_drive.svg",
+            total: tmp.gesamtpaletten,
+          ),
+          FileInfoCard(
+            amount: tmp!.restpaletten,
+            title: 'Restpaletten',
+            color: Color(0xFF007EE5),
+            svgSrc: "assets/icons/drop_box.svg",
+            total: tmp.gesamtpaletten,
+          ),
+        ];
+
+        return fileInfoCards[index];
+      },
     );
   }
 }

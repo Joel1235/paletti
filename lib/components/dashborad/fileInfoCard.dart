@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:paletti_1/models/Palettenkonto.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/palettenkonto.provider.dart';
 import '../../utils/constants.dart';
-import '../../models/MyFiles.dart';
 
 class FileInfoCard extends StatelessWidget {
   const FileInfoCard({
     Key? key,
-    required this.info,
+    //required this.info,
+    required this.color,
+    required this.amount,
+    required this.svgSrc,
+    required this.title,
+    required this.total,
   }) : super(key: key);
 
-  final CloudStorageInfo info;
+  //final CloudStorageInfo info;
+  final String svgSrc, title;
+  final int amount, total;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -34,38 +42,38 @@ class FileInfoCard extends StatelessWidget {
                 height: 40,
                 width: 40,
                 decoration: BoxDecoration(
-                  color: info.color!.withOpacity(0.1),
+                  color: color.withOpacity(0.1),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
                 child: SvgPicture.asset(
-                  info.svgSrc!,
-                  color: info.color,
+                  svgSrc,
+                  color: color,
                 ),
               ),
               Icon(Icons.more_vert, color: Colors.white54)
             ],
           ),
           Text(
-            info.title!,
+            title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           ProgressLine(
-            color: info.color,
-            percentage: info.percentage,
+            color: color,
+            percentage: ((amount / total) * 100).round(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "${info.totalStorage} Paletten",
+                "$amount Paletten",
                 style: Theme.of(context)
                     .textTheme
                     .caption!
                     .copyWith(color: Colors.white70),
               ),
               Text(
-                info.totalStorage!,
+                amount.toString(),
                 style: Theme.of(context)
                     .textTheme
                     .caption!

@@ -10,17 +10,15 @@ class RecentFiles extends StatefulWidget {
 }
 
 class _RecentFiles extends State<RecentFiles> {
-  List<PalEntry> paleEntriesfiltered = [];
   TextEditingController controller = TextEditingController();
   String _searchResult = '';
+  final Stream<QuerySnapshot> _entryStream =
+      FirebaseFirestore.instance.collection('palettenkonto1').snapshots();
+
   @override
   void initState() {
     super.initState();
-    paleEntriesfiltered = [];
   }
-
-  final Stream<QuerySnapshot> _entryStream =
-      FirebaseFirestore.instance.collection('palettenkonto1').snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +38,15 @@ class _RecentFiles extends State<RecentFiles> {
                 if (document.id != 'account')
                   {
                     palEntry = PalEntry.fromSnapshot(document),
-                    pallist.add(palEntry)
+                    pallist.add(palEntry),
+                    pallist = pallist
+                        .where((enrty) =>
+                            enrty.userMail.contains(_searchResult) ||
+                            enrty.date.contains(_searchResult) ||
+                            enrty.gesamtPal.toString().contains(_searchResult))
+                        .toList(),
                   },
               });
-          paleEntriesfiltered = pallist;
 
           return Container(
             padding: EdgeInsets.all(defaultPadding),
@@ -58,7 +61,9 @@ class _RecentFiles extends State<RecentFiles> {
                   "Einträge",
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
+                SizedBox(height: 16.0),
                 Card(
+                  color: thirdColor,
                   child: ListTile(
                     leading: Icon(Icons.search),
                     title: TextField(
@@ -68,8 +73,6 @@ class _RecentFiles extends State<RecentFiles> {
                         onChanged: (value) {
                           setState(() {
                             _searchResult = value;
-                            //paleEntriesfiltered = pallist.where((enrty) => enrty.userMail.contains(_searchResult) || enrty.date.contains(_searchResult) || enrty.gesamtPal.toString().contains(_searchResult)).toList();
-                            //print(paleEntriesfiltered);
                           });
                         }),
                     trailing: IconButton(
@@ -78,7 +81,6 @@ class _RecentFiles extends State<RecentFiles> {
                         setState(() {
                           controller.clear();
                           _searchResult = '';
-                          //paleEntriesfiltered = pallist;
                         });
                       },
                     ),
@@ -101,40 +103,16 @@ class _RecentFiles extends State<RecentFiles> {
                         label: Text("Change"),
                       ),
                     ],
-                    rows: List.generate(pallist.length, (index) {
-                      final palEntry = pallist[index];
-                      final amount = palEntry.gesamtPal.abs();
-                      if (_searchResult.isNotEmpty &&
-                              palEntry.userMail
-                                  .toLowerCase()
-                                  .contains(_searchResult.toLowerCase()) ||
-                          palEntry.date
-                              .toLowerCase()
-                              .contains(_searchResult.toLowerCase()) ||
-                          palEntry.gesamtPal
-                              .toString()
-                              .contains(_searchResult)) {
-                        return recentFileDataRow(palEntry, context);
-                      } else {
-                        throw Exception("no entries found");
-                      }
-                    }
-                        //(index) => recentFileDataRow(paleEntriesfiltered[index], context),
-                        ),
+                    rows: List.generate(
+                      pallist.length,
+                      (index) => recentFileDataRow(pallist[index], context),
+                    ),
                   ),
                 ),
               ],
             ),
           );
         });
-  }
-
-  Future<List<PalEntry>> getRecentChanges() {
-    /*_stream =
-        FirebaseFirestore.instance.collection('palettenkonto1').snapshots();
-
-    DatabaseReference ref = FirebaseDatabase.instance.ref();*/
-    throw new UnimplementedError();
   }
 }
 

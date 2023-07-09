@@ -6,20 +6,19 @@ import 'package:paletti_1/models/Organization.dart';
 import 'package:paletti_1/models/UserModel.dart';
 import 'package:paletti_1/provider/palettenkonto.provider.dart';
 import 'package:provider/provider.dart';
-import '../../controllers/MenuAppController.dart';
 import '../../models/Palettenkonto.dart';
 import '../../navBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:prompt_dialog/prompt_dialog.dart';
 
-class MessagePage extends StatefulWidget {
-  const MessagePage({super.key});
+class OrganizationPage extends StatefulWidget {
+  const OrganizationPage({super.key});
 
   @override
-  _newEntry createState() => _newEntry();
+  _OrganizationPage createState() => _OrganizationPage();
 }
 
-class _newEntry extends State<MessagePage> {
+class _OrganizationPage extends State<OrganizationPage> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   final Stream<QuerySnapshot> _pallettenStream =
       FirebaseFirestore.instance.collection('Palettenkonto').snapshots();
@@ -44,7 +43,7 @@ class _newEntry extends State<MessagePage> {
               flex: 5, //takes 5/6 of screen
               child: Column(children: [
                 Text(
-                  "Nachrichten",
+                  "Verwalte deine Organisation",
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 SizedBox(height: 16.0),
@@ -61,7 +60,6 @@ class _newEntry extends State<MessagePage> {
                     return print(await openAddUserDialog(context));
                   },
                 ),
-                
               ]),
             )
           ],
@@ -97,7 +95,11 @@ class _newEntry extends State<MessagePage> {
   Future<void> createOrganization(String value) async {
     CollectionReference organizations =
         FirebaseFirestore.instance.collection('organizations');
-    Organization organization = Organization(orgaId: 'dfk', owner: FirebaseAuth.instance.currentUser!.email.toString(), name: value, userList: []);
+    Organization organization = Organization(
+        orgaId: 'dfk',
+        owner: FirebaseAuth.instance.currentUser!.email.toString(),
+        name: value,
+        userList: []);
     return organizations
         .add(organization.toJson())
         .then((value) => print("orga added"))
@@ -107,41 +109,45 @@ class _newEntry extends State<MessagePage> {
   void createPalAccount() {}
 
   Future<String?> openAddUserDialog(BuildContext context) {
-    return prompt(
-      context,
-      title: const Text("Teilnehmer per Mail hinzufügen"),
-      validator: (String? value){
-        if(value == null || value.isEmpty){
-          return 'Gebe einen gültigen Wert ein';
-        } else {
-          print("Hello");
-          //first get the right User
-          bool userExists = false;
-          FirebaseFirestore.instance.collection('user').doc(value).get()
+    return prompt(context, title: const Text("Teilnehmer per Mail hinzufügen"),
+        validator: (String? value) {
+      if (value == null || value.isEmpty) {
+        return 'Gebe einen gültigen Wert ein';
+      } else {
+        print("Hello");
+        //first get the right User
+        bool userExists = false;
+        FirebaseFirestore.instance
+            .collection('user')
+            .doc(value)
+            .get()
             .then((DocumentSnapshot snap) {
-              if(snap.exists){
-                //user = UserModel.fromSnapshot(snap);
-                userExists = true;
-              }
-            });
-          //then get the current organization
-          FirebaseFirestore.instance.collection('organizations').doc('SONHC9qZqrgrFmJX0Cga').get()
+          if (snap.exists) {
+            //user = UserModel.fromSnapshot(snap);
+            userExists = true;
+          }
+        });
+        //then get the current organization
+        FirebaseFirestore.instance
+            .collection('organizations')
+            .doc('SONHC9qZqrgrFmJX0Cga')
+            .get()
             .then((DocumentSnapshot snap) {
-              if(snap.exists && userExists){
-                //organization = Organization.fromSnapshot(snap);
-                //organization.userList.add(value);
-                //print(organization.toString());
-                List<dynamic> userList = Organization.fromSnapshot(snap).userList;
-                userList.add(value);
-                FirebaseFirestore.instance.collection('organizations').doc('SONHC9qZqrgrFmJX0Cga').update({
-                  'userList': FieldValue.arrayUnion(userList)
-                });
-              } else {                
-                return "Organisation oder User existiert nicht";
-              }
-            }).catchError((error) => print("error occurec: $error"));
-        }
+          if (snap.exists && userExists) {
+            //organization = Organization.fromSnapshot(snap);
+            //organization.userList.add(value);
+            //print(organization.toString());
+            List<dynamic> userList = Organization.fromSnapshot(snap).userList;
+            userList.add(value);
+            FirebaseFirestore.instance
+                .collection('organizations')
+                .doc('SONHC9qZqrgrFmJX0Cga')
+                .update({'userList': FieldValue.arrayUnion(userList)});
+          } else {
+            return "Organisation oder User existiert nicht";
+          }
+        }).catchError((error) => print("error occurec: $error"));
       }
-    );
+    });
   }
 }

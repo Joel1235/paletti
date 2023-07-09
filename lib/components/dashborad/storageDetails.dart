@@ -39,13 +39,13 @@ class StorageDetails extends StatelessWidget {
               ),
               StorageInfoCard(
                 svgSrc: "icons/media.svg",
-                title: "Industriepaletten",
-                amount: palettenkontoProvider.palettenkonto?.industriepaletten,
+                title: "Chemiepaletten",
+                amount: palettenkontoProvider.palettenkonto?.chemiepaletten,
               ),
               StorageInfoCard(
                 svgSrc: "icons/folder.svg",
-                title: "Chemiepaletten",
-                amount: palettenkontoProvider.palettenkonto?.chemiepaletten,
+                title: "Industriepaletten",
+                amount: palettenkontoProvider.palettenkonto?.industriepaletten,
               ),
               StorageInfoCard(
                 svgSrc: "icons/unknown.svg",

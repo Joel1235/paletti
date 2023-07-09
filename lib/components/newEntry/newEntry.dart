@@ -183,7 +183,17 @@ class _newEntry extends State<NewEntry> {
     );
     plaKonto1
         .add(palEntry.toJson())
-        .then((value) => print("Created Entry"))
+        .then((value) => {
+              setState(() {
+                int chemiePal = 0;
+                int euroPal = 0;
+                int gesamtPal = 0;
+                int industriePal = 0;
+                int restPal = 0;
+                String imagePath = '';
+                String location = '';
+              })
+            })
         .catchError((error) => print("Failed to create Entry"));
   }
 

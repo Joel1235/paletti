@@ -4,7 +4,7 @@ import 'package:paletti_1/components/locationMap/locationMap.dart';
 import 'package:paletti_1/components/newEntry/newEntry.dart';
 import 'components/dashborad/mainScreen.dart';
 import 'components/externApi/extApi.dart';
-import 'components/messages/messagePage.dart';
+import 'components/OrganizationPage/organizationPage.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -65,8 +65,10 @@ class NavBar extends StatelessWidget {
               leading: const Icon(Icons.map),
               title: const Text('Organisation'),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: ((context) => MessagePage())));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => OrganizationPage())));
               }),
           ListTile(
               leading: const Icon(Icons.people),

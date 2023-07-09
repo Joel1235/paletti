@@ -93,7 +93,7 @@ class FileInfoCardGridView extends StatelessWidget {
           FileInfoCard(
             amount: tmp!.chemiepaletten,
             title: 'Chemiepaletten',
-            color: Color(0xFFA4CDFF),
+            color: Color(0xFF26E5FF),
             svgSrc: "assets/icons/one_drive.svg",
             total: tmp.gesamtpaletten,
           ),
@@ -107,8 +107,8 @@ class FileInfoCardGridView extends StatelessWidget {
           FileInfoCard(
             amount: tmp!.restpaletten,
             title: 'Restpaletten',
-            color: Color(0xFF007EE5),
-            svgSrc: "assets/icons/drop_box.svg",
+            color: Color(0xFFEE2727),
+            svgSrc: "assets/icons/unknown.svg",
             total: tmp.gesamtpaletten,
           ),
         ];

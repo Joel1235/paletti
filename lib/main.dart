@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:paletti_1/controllers/MenuAppController.dart';
+import 'package:paletti_1/provider/MenuAppController.dart';
 import 'package:paletti_1/components/dashborad/mainScreen.dart';
 import 'package:paletti_1/provider/palettenkonto.provider.dart';
 import 'package:paletti_1/utils/utils.dart';
@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => MenuAppController(),
-
       child: ChangeNotifierProvider(
         create: (context) => PalettenkontoProvider(),
         child: MaterialApp(
@@ -44,9 +43,7 @@ class MyApp extends StatelessWidget {
           ),
           //home: const MyHomePage(title: 'Paletti '),
           home: MyHomePage(
-           
-              title: 'Home Page',
-            
+            title: 'Home Page',
           ),
         ),
       ),

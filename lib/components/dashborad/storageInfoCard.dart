@@ -44,13 +44,6 @@ class StorageInfoCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  // Text(
-                  //   "$numOfFiles Files", //this is a nice little label under the title, looks prettie nice migth use later
-                  //   style: Theme.of(context)
-                  //       .textTheme
-                  //       .caption!
-                  //       .copyWith(color: Colors.white70),
-                  // ),
                 ],
               ),
             ),

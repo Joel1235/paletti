@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:paletti_1/models/Palettenkonto.dart';
 import 'package:paletti_1/provider/palettenkonto.provider.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +23,8 @@ class Chart extends StatelessWidget {
               sectionsSpace: 0,
               centerSpaceRadius: 70,
               startDegreeOffset: -90,
-              sections: paiChartSelectionDatas,
+              //sections: paiChartSelectionDatas,
+              sections: getSections(temp),
             ),
           ),
           Positioned.fill(
@@ -45,6 +47,37 @@ class Chart extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  List<PieChartSectionData> getSections(Palettenkonto? pK) {
+    List<PieChartSectionData> pC = [
+      PieChartSectionData(
+        color: primaryColor,
+        value: pK?.europaletten.toDouble(),
+        showTitle: false,
+        radius: 20,
+      ),
+      PieChartSectionData(
+        color: Color(0xFFFFCF26),
+        value: pK?.industriepaletten.toDouble(),
+        showTitle: false,
+        radius: 20,
+      ),
+      PieChartSectionData(
+        color: Color(0xFF26E5FF),
+        value: pK?.chemiepaletten.toDouble(),
+        showTitle: false,
+        radius: 20,
+      ),
+      PieChartSectionData(
+        color: Color(0xFFEE2727),
+        value: pK?.restpaletten.toDouble(),
+        showTitle: false,
+        radius: 20,
+      ),
+    ];
+
+    return pC;
   }
 }
 

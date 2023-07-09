@@ -41,20 +41,11 @@ class Palettenkonto extends ChangeNotifier {
     );
   }
 
-  // void update(int gesamtpaletten, int europaleten, int chemiepaletten,
-  //     int industriepaletten, int restpaletten) {
-  //   this.europaletten = europaleten;
-  //   this.chemiepaletten = chemiepaletten;
-  //   this.gesamtpaletten = gesamtpaletten;
-  //   this.industriepaletten = industriepaletten;
-  //   this.restpaletten = restpaletten;
-  //   notifyListeners();
-  // }
   void updateValues(int chemiePal, int euroPal, int industriePal, int restPal) {
     this.chemiepaletten += chemiePal;
     this.europaletten += euroPal;
     this.industriepaletten += industriePal;
-    this.restpaletten += industriePal;
+    this.restpaletten += restPal;
     this.gesamtpaletten =
         chemiepaletten + europaletten + industriepaletten + restpaletten;
   }

@@ -114,7 +114,6 @@ class _OrganizationPage extends State<OrganizationPage> {
       if (value == null || value.isEmpty) {
         return 'Gebe einen gültigen Wert ein';
       } else {
-        print("Hello");
         //first get the right User
         bool userExists = false;
         FirebaseFirestore.instance
@@ -123,7 +122,6 @@ class _OrganizationPage extends State<OrganizationPage> {
             .get()
             .then((DocumentSnapshot snap) {
           if (snap.exists) {
-            //user = UserModel.fromSnapshot(snap);
             userExists = true;
           }
         });

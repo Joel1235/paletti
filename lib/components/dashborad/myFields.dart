@@ -101,7 +101,7 @@ class FileInfoCardGridView extends StatelessWidget {
             amount: tmp!.industriepaletten,
             title: 'Industriepaletten',
             color: Color(0xFFFFA113),
-            svgSrc: "assets/icons/google_drive.svg",
+            svgSrc: "assets/icons/folder.svg",
             total: tmp.gesamtpaletten,
           ),
           FileInfoCard(

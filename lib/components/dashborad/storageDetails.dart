@@ -38,7 +38,7 @@ class StorageDetails extends StatelessWidget {
                 amount: palettenkontoProvider.palettenkonto?.europaletten,
               ),
               StorageInfoCard(
-                svgSrc: "icons/media.svg",
+                svgSrc: "icons/one_drive.svg",
                 title: "Chemiepaletten",
                 amount: palettenkontoProvider.palettenkonto?.chemiepaletten,
               ),

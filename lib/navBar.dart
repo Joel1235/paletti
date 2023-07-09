@@ -22,7 +22,7 @@ class NavBar extends StatelessWidget {
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
                 child: Image.network(
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC-9Xm5dvI6hqtVo9MDNjTBfVxgJgCULLTbmJ9pUaCcN7nV5O_CKIJrSeXgdXjLo_GgjI&usqp=CAU',
+                  'https://thumbs.dreamstime.com/b/default-avatar-profile-vector-user-profile-default-avatar-profile-vector-user-profile-profile-179376714.jpg',
                   width: 90,
                   height: 90,
                 ),
@@ -39,7 +39,6 @@ class NavBar extends StatelessWidget {
           ListTile(
               leading: const Icon(Icons.description),
               title: const Text('Dashboard'),
-              //onTap: () => print ('Fahrerstandorte')
               onTap: () {
                 Navigator.push(
                     context,

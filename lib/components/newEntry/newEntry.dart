@@ -22,7 +22,6 @@ class NewEntry extends StatefulWidget {
 }
 
 class _newEntry extends State<NewEntry> {
-  //FirebaseFirestore firestore = FirebaseFirestore.instance;
   PlatformFile? pickedFile;
 
   int chemiePal = 0;
@@ -32,6 +31,15 @@ class _newEntry extends State<NewEntry> {
   int restPal = 0;
   String imagePath = '';
   String location = '';
+  String message = '';
+
+  List<TextEditingController> controllers = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+  ];
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +59,7 @@ class _newEntry extends State<NewEntry> {
                   child: Column(
                     children: [
                       TextField(
+                        controller: controllers[0],
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
                           setState(() {
@@ -67,6 +76,7 @@ class _newEntry extends State<NewEntry> {
                       ),
                       SizedBox(height: 16.0),
                       TextField(
+                        controller: controllers[1],
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
                           setState(() {
@@ -83,10 +93,11 @@ class _newEntry extends State<NewEntry> {
                       ),
                       SizedBox(height: 16.0),
                       TextField(
+                        controller: controllers[2],
                         keyboardType: TextInputType.number,
-                        onChanged: (value) {
+                        onChanged: (value1) {
                           setState(() {
-                            gesamtPal = int.parse(value);
+                            industriePal = int.parse(value1);
                           });
                         },
                         decoration: InputDecoration(
@@ -99,10 +110,11 @@ class _newEntry extends State<NewEntry> {
                       ),
                       SizedBox(height: 16.0),
                       TextField(
+                        controller: controllers[3],
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
                           setState(() {
-                            industriePal = int.parse(value);
+                            restPal = int.parse(value);
                           });
                         },
                         decoration: InputDecoration(
@@ -115,10 +127,11 @@ class _newEntry extends State<NewEntry> {
                       ),
                       SizedBox(height: 16.0),
                       TextField(
-                        keyboardType: TextInputType.number,
+                        controller: controllers[4],
+                        keyboardType: TextInputType.text,
                         onChanged: (value) {
                           setState(() {
-                            industriePal = int.parse(value);
+                            location = value;
                           });
                         },
                         decoration: InputDecoration(
@@ -132,18 +145,13 @@ class _newEntry extends State<NewEntry> {
                       SizedBox(height: 16.0),
                       ElevatedButton(
                         onPressed: () {
-                          selectFile();
-                        },
-                        child: Text('Bild hochladen'),
-                      ),
-                      SizedBox(height: 16.0),
-                      ElevatedButton(
-                        onPressed: () {
                           submitPallets(chemiePal, euroPal, industriePal,
                               restPal, palKonto.palettenkonto);
                         },
                         child: Text('Einreichen'),
                       ),
+                      SizedBox(height: 16.0),
+                      Text(message),
                     ],
                   ),
                 ),
@@ -168,7 +176,7 @@ class _newEntry extends State<NewEntry> {
     //create List Entry
     var email = FirebaseAuth.instance.currentUser?.email;
     DateTime now = new DateTime.now();
-    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final DateFormat formatter = DateFormat('yyyy-MM-dd    hh:mm');
 
     PalEntry palEntry = PalEntry(
       id: '1',
@@ -177,24 +185,35 @@ class _newEntry extends State<NewEntry> {
       gesamtPal: euro + chemie + industrie + rest,
       industriePal: industrie,
       restPal: rest,
-      location: 'notImplemented',
+      location: location,
       userMail: '$email',
       date: formatter.format(now).toString(),
     );
-    plaKonto1
-        .add(palEntry.toJson())
-        .then((value) => {
-              setState(() {
-                int chemiePal = 0;
-                int euroPal = 0;
-                int gesamtPal = 0;
-                int industriePal = 0;
-                int restPal = 0;
-                String imagePath = '';
-                String location = '';
+
+    if (!(chemie == 0 && euro == 0 && industrie == 0 && rest == 0)) {
+      plaKonto1
+          .add(palEntry.toJson())
+          .then((value) => {
+                setState(() {
+                  chemiePal = 0;
+                  euroPal = 0;
+                  gesamtPal = 0;
+                  industriePal = 0;
+                  restPal = 0;
+                  imagePath = '';
+                  location = '';
+                }),
+                for (var controller in controllers) {controller.clear()},
+                message = "Erfolgreich eingereicht",
               })
-            })
-        .catchError((error) => print("Failed to create Entry"));
+          .catchError((error) => {
+                message =
+                    "es ist ein Fehler unterlaufen, Überprüfe deine Angaben",
+                throw error
+              });
+    } else {
+      message = "Gebe gültige Werte an";
+    }
   }
 
   Future selectFile() async {

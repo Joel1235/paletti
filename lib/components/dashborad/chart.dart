@@ -23,7 +23,6 @@ class Chart extends StatelessWidget {
               sectionsSpace: 0,
               centerSpaceRadius: 70,
               startDegreeOffset: -90,
-              //sections: paiChartSelectionDatas,
               sections: getSections(temp),
             ),
           ),

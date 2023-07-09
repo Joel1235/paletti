@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import '../../models/PalEntry.dart';
 import '../../utils/constants.dart';
 
-class RecentFiles extends StatefulWidget {
+class RecentEntries extends StatefulWidget {
   @override
-  _RecentFiles createState() => _RecentFiles();
+  _RecentEntries createState() => _RecentEntries();
 }
 
-class _RecentFiles extends State<RecentFiles> {
+class _RecentEntries extends State<RecentEntries> {
   TextEditingController controller = TextEditingController();
   String _searchResult = '';
   final Stream<QuerySnapshot> _entryStream =
@@ -32,6 +32,7 @@ class _RecentFiles extends State<RecentFiles> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Text("Loading");
           }
+          //get all Entries of Palettenkonto and filter
           List<PalEntry> pallist = [];
           PalEntry palEntry;
           snapshot.data!.docs.forEach((document) => {
@@ -163,6 +164,9 @@ void detailsDialog(BuildContext context, PalEntry palEntry) {
             ),
             ListTile(
               title: Text("Erstellt am: \t ${palEntry.date}"),
+            ),
+            ListTile(
+              title: Text("Standort: \t ${palEntry.location}"),
             ),
             ListTile(
               title: Text("Änderung Europaletten:  \t ${palEntry.euroPal}"),

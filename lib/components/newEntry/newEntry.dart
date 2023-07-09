@@ -137,10 +137,6 @@ class _newEntry extends State<NewEntry> {
                         decoration: InputDecoration(
                           labelText: 'Standort',
                         ),
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^-?\d{0,9}'))
-                        ],
                       ),
                       SizedBox(height: 16.0),
                       ElevatedButton(
@@ -217,6 +213,7 @@ class _newEntry extends State<NewEntry> {
   }
 
   Future selectFile() async {
+    //for a later feature
     final result = await FilePicker.platform.pickFiles();
     if (result == null) return;
     setState(() {

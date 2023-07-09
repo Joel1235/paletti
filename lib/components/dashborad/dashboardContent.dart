@@ -7,7 +7,7 @@ import '../../provider/palettenkonto.provider.dart';
 import '../../utils/constants.dart';
 import 'header.dart';
 import 'myFields.dart';
-import 'recentFile.dart';
+import 'recentEntries.dart';
 import 'storageDetails.dart';
 
 class DashoardContent extends StatefulWidget {
@@ -28,7 +28,8 @@ class _DashboardContetnState extends State<DashoardContent> {
   }
 
   void _getData() async {
-    var _stream = FirebaseFirestore.instance
+    //set Palettenkonto in Provider
+    FirebaseFirestore.instance
         .collection('palettenkonto1')
         .doc('account')
         .snapshots()
@@ -75,7 +76,7 @@ class _DashboardContetnState extends State<DashoardContent> {
                             children: [
                               MyFiles(),
                               SizedBox(height: defaultPadding),
-                              RecentFiles(),
+                              RecentEntries(),
                               if (Responsive.isMobile(context))
                                 SizedBox(height: defaultPadding),
                               if (Responsive.isMobile(context))

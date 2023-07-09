@@ -20,6 +20,7 @@ class _ExtApi extends State<ExtApi> {
   }
 
   _fetchArticles() async {
+    //get Articles
     List<Article> articles =
         await ApiService().fetchArticlesBySection('automobiles');
     setState(() {
@@ -28,6 +29,7 @@ class _ExtApi extends State<ExtApi> {
   }
 
   _buildArticlesGrid(MediaQueryData mediaQuery) {
+    //articles are shown in Grid
     List<GridTile> tiles = [];
     _articles.forEach((article) {
       tiles.add(_buildArticleTile(article, mediaQuery));

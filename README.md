@@ -1,16 +1,20 @@
-# paletti_1
+Dies ist der Stand zur Probjektabge der Anwendung Paletti
 
-A new Flutter project.
+Alle erforderlichen Features sind implementiert, 
+Die optionalen Features funktionieren noch nicht ganz, und sind auch noch nicht vollstädnig implementiert.
+Ich habe außerdem noch ein weiteres Feature implemetiert, inder Zeitungsartikel von einer API angezeigt werden, da ich mir nicht sicher war, 
+ob die Kommunikation mit der Firebase API ausreicht.
 
-## Getting Started
+Ich habe API Keys im Code gelassen, da ich keine andere Möglichkeit gefunden habe, wie ich sonst die Anwendung in Gitpod ohne weitere manuelle Konfigurationen gestartet bekomme.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+GitHub Repo Link:
+https://github.com/DHBW-Vilas/21ai1-webeng-II-paletti / https://github.com/Joeldag/paletti
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Die Anwendung sollte im Repo mit Gitpod laufen, falls nicht kann die Anwendung auch so gestartet werden:
+flutter pub get
+flutter run -d chrome
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Es kann sein, dass der Stand auf dem Repo weiter ist als der hier
+
+Die FeatureList ist in der Registration.md

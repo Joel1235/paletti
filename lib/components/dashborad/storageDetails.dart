@@ -12,6 +12,7 @@ class StorageDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //the whole right part of dashboard
     return Consumer<PalettenkontoProvider>(
       builder: ((context, palettenkontoProvider, child) {
         return Container(

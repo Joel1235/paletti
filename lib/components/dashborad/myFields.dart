@@ -70,7 +70,6 @@ class FileInfoCardGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Palettenkonto? tmp = context.watch<PalettenkontoProvider>().palettenkonto;
-    print(tmp);
     return GridView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,

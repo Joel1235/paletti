@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
+//this class is still in work, not finished
 class LocationMap extends StatelessWidget {
   const LocationMap({super.key});
 
@@ -73,6 +74,5 @@ class LocationMap extends StatelessWidget {
   dispose(MapController controller) {
     controller.initPosition;
     controller.dispose();
-    //controller.
   }
 }

@@ -13,6 +13,7 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // = the circular display on the right side of dashboard
     final temp = context.watch<PalettenkontoProvider>().palettenkonto;
     return SizedBox(
       height: 200,
@@ -49,6 +50,7 @@ class Chart extends StatelessWidget {
   }
 
   List<PieChartSectionData> getSections(Palettenkonto? pK) {
+    //Sections for each Palettentype
     List<PieChartSectionData> pC = [
       PieChartSectionData(
         color: primaryColor,
@@ -79,36 +81,3 @@ class Chart extends StatelessWidget {
     return pC;
   }
 }
-
-List<PieChartSectionData> paiChartSelectionDatas = [
-  PieChartSectionData(
-    color: primaryColor,
-    value: 25,
-    showTitle: false,
-    radius: 25,
-  ),
-  PieChartSectionData(
-    color: Color(0xFF26E5FF),
-    value: 20,
-    showTitle: false,
-    radius: 22,
-  ),
-  PieChartSectionData(
-    color: Color(0xFFFFCF26),
-    value: 10,
-    showTitle: false,
-    radius: 19,
-  ),
-  PieChartSectionData(
-    color: Color(0xFFEE2727),
-    value: 15,
-    showTitle: false,
-    radius: 16,
-  ),
-  PieChartSectionData(
-    color: primaryColor.withOpacity(0.1),
-    value: 25,
-    showTitle: false,
-    radius: 13,
-  ),
-];

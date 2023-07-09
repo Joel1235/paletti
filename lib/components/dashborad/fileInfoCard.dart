@@ -9,7 +9,6 @@ import '../../utils/constants.dart';
 class FileInfoCard extends StatelessWidget {
   const FileInfoCard({
     Key? key,
-    //required this.info,
     required this.color,
     required this.amount,
     required this.svgSrc,
@@ -17,7 +16,6 @@ class FileInfoCard extends StatelessWidget {
     required this.total,
   }) : super(key: key);
 
-  //final CloudStorageInfo info;
   final String svgSrc, title;
   final int amount, total;
   final Color color;
@@ -60,7 +58,7 @@ class FileInfoCard extends StatelessWidget {
           ),
           ProgressLine(
             color: color,
-            percentage: ((amount / total) * 100).round(),
+            percentage: ((amount.abs() / total.abs()) * 100).round(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

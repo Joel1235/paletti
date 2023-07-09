@@ -7,10 +7,6 @@ class PalettenkontoProvider extends ChangeNotifier {
 
   Palettenkonto? get palettenkonto => _palettenkonto;
 
-  PalettenkontoProvider() {
-    //_palettenkonto = palettenkonto;
-  }
-
   void setPalettenkonto(Palettenkonto palettenkonto) {
     _palettenkonto = palettenkonto;
     notifyListeners();

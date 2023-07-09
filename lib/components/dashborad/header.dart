@@ -26,9 +26,28 @@ class Header extends StatelessWidget {
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
+        ElevatedButton(
+            onPressed: () {
+              openDialog(context);
+            },
+            child: Text('?')),
         ProfileCard()
       ],
     );
+  }
+
+  openDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: Text("Hilfstext"),
+            children: [
+              Text(
+                  "  Hier befindest du dich im Dahsboard wo du auch dein Palettenkonto findest. \n  Erstelle neue Eintrgäge, indem du auf Eintrag hinzufügen klickst. \n  Die Einträge werden dir hier im Dashboard aktualisiert, \n  klicke auf einen Eintrag um mehr Informationen zu bekommen."),
+            ],
+          );
+        });
   }
 }
 

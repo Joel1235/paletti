@@ -11,6 +11,7 @@ import '../../navBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:prompt_dialog/prompt_dialog.dart';
 
+//this class is still in work, not finished
 class OrganizationPage extends StatefulWidget {
   const OrganizationPage({super.key});
 
@@ -27,10 +28,6 @@ class _OrganizationPage extends State<OrganizationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: AppBar(
-        title: Text('Dashboard'),
-      ),*/
-      //key: context.read<MenuAppController>().scaffoldKey,
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
